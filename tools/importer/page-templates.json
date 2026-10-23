@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://www.sunlife.ca/en/"
+      ],
+      "representativeUrl": "https://www.sunlife.ca/en/",
+      "description": "Sun Life homepage / landing page: hero panel, product intros (media columns + icon cards), banners, icon-card groups with headings, article cards and a cream closing call to action.",
+      "urlPattern": "/*",
+      "blocks": [
+        {
+          "name": "hero-panel",
+          "instances": [
+            ".hero-banner .sl-banner"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            ".sl-media-block-container"
+          ]
+        },
+        {
+          "name": "cards-icon",
+          "instances": [
+            ".sl-segmented-blocks"
+          ]
+        },
+        {
+          "name": "columns-banner",
+          "instances": [
+            ".sl-banner-image-block"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".sl-cards.vertical"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc2",
+          "name": "Hero",
+          "selector": [
+            "#main-content .aem-Grid > .hero-banner"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-panel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc3",
+          "name": "Insurance",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(2)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media",
+            "cards-icon"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc6",
+          "name": "Investments",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(5)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media",
+            "cards-icon"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc9",
+          "name": "Health",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(8)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media",
+            "cards-icon"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc11",
+          "name": "Brand banner",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(10)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc12",
+          "name": "Why choose",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(11)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-icon"
+          ],
+          "defaultContent": [
+            "#main-content .aem-Grid > div:nth-child(11) h2"
+          ]
+        },
+        {
+          "id": "rc14",
+          "name": "Get started",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(13)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-icon"
+          ],
+          "defaultContent": [
+            "#main-content .aem-Grid > div:nth-child(13) .cmp-text"
+          ]
+        },
+        {
+          "id": "rc17",
+          "name": "Client support",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(16)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-icon"
+          ],
+          "defaultContent": [
+            "#main-content .aem-Grid > div:nth-child(16) h2"
+          ]
+        },
+        {
+          "id": "rc19",
+          "name": "App promo banner",
+          "selector": [
+            "#main-content .aem-Grid > .experiencefragment"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc20",
+          "name": "Articles",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(19)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-article"
+          ],
+          "defaultContent": [
+            "#main-content .aem-Grid > div:nth-child(19) .cmp-text"
+          ]
+        },
+        {
+          "id": "rc22",
+          "name": "Find an advisor",
+          "selector": [
+            "#main-content .aem-Grid > div:nth-child(21)",
+            ".sl-banner-content-block"
+          ],
+          "style": "cream",
+          "blocks": [],
+          "defaultContent": [
+            ".sl-banner-content-block"
+          ]
+        }
+      ]
+    }
+  ]
+}

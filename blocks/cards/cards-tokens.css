@@ -8,4 +8,33 @@
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
   --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
   --cards-image-object-fit: cover; /* @boilerplate */
+
+  /* cards (icon) variant — source .sl-segmented-blocks .card */
+  --cards-icon-row-gap: var(--spacing-l);
+  --cards-icon-row-gap-desktop: var(--spacing-3xl);
+  --cards-icon-column-gap: var(--spacing-l);
+  --cards-icon-card-padding-bottom: var(--spacing-l);
+  --cards-icon-size: 64px;
+  --cards-icon-margin-bottom: var(--spacing-l);
+  --cards-icon-heading-font-size: var(--heading-font-size-m);
+  --cards-icon-heading-line-height: 1.4;
+  --cards-icon-cta-gap: var(--spacing-l);
+  --cards-select-height: var(--button-min-height);
+  --cards-select-padding: 0 calc(var(--spacing-m) * 2 + var(--spacing-xs)) 0 var(--spacing-m);
+  --cards-select-border: var(--border-width-s) solid var(--input-border-color);
+  --cards-select-background: var(--background-color);
+  --cards-select-color: var(--text-color);
+  --cards-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23202223' d='M443.5 162.6l-7.1-7.1c-4.7-4.7-12.3-4.7-17 0L224 351 28.5 155.5c-4.7-4.7-12.3-4.7-17 0l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l211 211.1c4.7 4.7 12.3 4.7 17 0l211-211.1c4.8-4.7 4.8-12.3.1-17z'/%3E%3C/svg%3E");
+  --cards-select-chevron-size: var(--spacing-m);
+  --cards-select-gap: var(--spacing-m);
+
+  /* cards (article) variant — source .sl-cards.vertical .card */
+  --cards-article-gap: var(--spacing-l);
+  --cards-article-border: var(--border-width-s) solid #c3c8cb; /* --grey-400 */
+  --cards-article-body-padding: var(--spacing-l);
+  --cards-article-image-aspect-ratio: 16 / 9;
+  --cards-article-title-font-size: var(--heading-font-size-m);
+  --cards-article-title-line-height: 1.4;
+  --cards-article-title-color: var(--text-color);
+  --cards-article-hover-shadow: var(--box-shadow-m);
 }

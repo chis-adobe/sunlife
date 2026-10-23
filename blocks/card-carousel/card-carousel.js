@@ -40,6 +40,8 @@ export default function decorate(block) {
   });
 
   slidesWrapper.querySelectorAll('picture > img').forEach((img) => {
+    // Dynamic Media pictures are already responsive renditions
+    if (img.closest('picture[data-dm]')) return;
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);

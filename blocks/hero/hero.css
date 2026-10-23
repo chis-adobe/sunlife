@@ -1,8 +1,9 @@
 @import url('./hero-tokens.css');
 
-.hero-container .hero-wrapper { /* @boilerplate */
-  max-width: unset; /* @boilerplate */
-  padding: 0; /* @boilerplate */
+/* full-bleed: beats the section's constrained inner div (styles.css) */
+main > .section.hero-container > .hero-wrapper {
+  max-width: unset;
+  padding: 0;
 }
 
 .hero { /* @boilerplate */
@@ -32,8 +33,109 @@
   height: 100%; /* @boilerplate */
 }
 
+
+/* ==== hero (panel): photo with a dark teal text panel ==== */
+
+/* mobile: image stacked above a full-width panel */
+.hero.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: unset;
+  padding: 0;
+}
+
+.hero.panel > .hero-media {
+  line-height: 0;
+}
+
+.hero.panel > .hero-media picture {
+  display: block;
+  position: static;
+  z-index: auto;
+}
+
+.hero.panel > .hero-media img {
+  display: block;
+  aspect-ratio: var(--hero-panel-image-aspect-ratio);
+}
+
+.hero.panel > .hero-content > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: var(--hero-panel-padding);
+  background-color: var(--hero-panel-background);
+  color: var(--hero-panel-text-color);
+
+  --link-color: var(--hero-panel-text-color);
+  --link-hover-color: var(--hero-panel-text-color);
+}
+
+.hero.panel h1 {
+  max-width: none;
+  margin: var(--hero-panel-heading-margin);
+  font-family: var(--hero-panel-heading-font-family);
+  color: inherit;
+}
+
+.hero.panel .hero-content p {
+  margin: 0 0 var(--spacing-m);
+}
+
+.hero.panel .hero-content p.button-wrapper {
+  margin: calc(var(--hero-panel-cta-gap) - var(--spacing-m)) 0 0;
+}
+
+.hero.panel .hero-content > div > :last-child {
+  margin-bottom: 0;
+}
+
+.hero.panel .hero-content a.button {
+  margin: 0;
+  font-size: var(--body-font-size-l);
+  line-height: var(--hero-panel-cta-line-height);
+}
+
+/* desktop: default hero padding; panel image fills the block and the panel overlays it,
+   aligned to the content grid */
 @media (width >= 900px) { /* @boilerplate */
   .hero { /* @boilerplate */
     padding: var(--hero-padding-desktop); /* @boilerplate */
+  }
+
+  .hero.panel {
+    position: relative;
+    min-height: var(--hero-panel-min-height-desktop);
+  }
+
+  .hero.panel > .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero.panel > .hero-media picture,
+  .hero.panel > .hero-media img {
+    height: 100%;
+  }
+
+  .hero.panel > .hero-media img {
+    aspect-ratio: auto;
+  }
+
+  .hero.panel > .hero-content {
+    position: relative;
+    display: flex;
+    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: calc(var(--max-width-site) + 2 * var(--content-gutter));
+    margin: 0 auto;
+    padding: 0 var(--content-gutter);
+  }
+
+  .hero.panel > .hero-content > div {
+    width: var(--hero-panel-width);
+    padding: var(--hero-panel-padding-desktop);
   }
 }

@@ -1,4 +1,21 @@
 /* columns design tokens */
 :root { /* @boilerplate */
   --columns-gap: var(--spacing-m); /* @boilerplate */
+
+  /* columns (media) variant — source .sl-media-block */
+  --columns-media-gap: var(--spacing-l);
+  --columns-media-gap-desktop: calc(var(--spacing-l) + var(--spacing-s)); /* 36px: 12px col gutter + 24px body padding */
+  --columns-media-image-aspect-ratio: 16 / 9;
+  --columns-media-heading-font-size: var(--heading-font-size-l);
+  --columns-media-heading-line-height: 1.3333;
+
+  /* columns (banner) variant — source .sl-banner-image-block */
+  --columns-banner-background: var(--light-color);
+  --columns-banner-padding: var(--spacing-l);
+  --columns-banner-gap: var(--spacing-l);
+  --columns-banner-text-padding-desktop: var(--spacing-l);
+  --columns-banner-heading-font-size: var(--heading-font-size-l);
+  --columns-banner-heading-line-height: 1.3333;
+  --columns-banner-badge-height: 44px;
+  --columns-banner-image-min-height-desktop: 216px;
 }

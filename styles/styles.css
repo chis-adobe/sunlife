@@ -16,154 +16,191 @@
  *   Tier 2 = component tokens in blocks/{name}/{name}-tokens.css, which reference these.
  *
  * Migration marker — a trailing  @boilerplate  comment marks a line that is still untouched
- *   boilerplate, NOT yet reviewed against the customer. EVERY rule line across the boilerplate's
- *   CSS carries it (declarations and selector/at-rule opening lines alike). It is TRANSIENT
- *   scaffolding, not permanent metadata:
- *     - As the customer's styling is applied, each line is either rewritten or consciously kept,
- *       and EITHER WAY its marker is DELETED. Never "flip" it — just remove it.
- *     - When no markers remain, migration is complete and this is plain CSS again.
- *   A Claude Code hook (.claude/hooks/check-boilerplate-markers.mjs) flags any line you edit but
- *   leave marked — but only in a customer migration; it stays silent in the aemdemos/ise-boilerplate
- *   source repo, where keeping markers on edits is correct. Audit remaining work (anchored on the
- *   marker token, so prose is not counted):
+ *   boilerplate, NOT yet reviewed against the customer. It is TRANSIENT scaffolding: as the
+ *   customer's styling is applied, each line is either rewritten or consciously kept, and EITHER
+ *   WAY its marker is DELETED. This file has been fully reviewed for Sun Life (no markers left);
+ *   block CSS may still carry markers. Audit remaining work:
  *     grep -rn  '/\* @boilerplate' styles/ blocks/   (every untouched line)
  *     grep -rc  '/\* @boilerplate' styles/ blocks/   (remaining count per file)
+ *
+ * Design tokens extracted from: https://www.sunlife.ca/en/ (2026-10-23)
+ *   Raw data + provenance: migration-work/*.json, migration-work/design-system-extracted.json
+ *   Breakpoints: source 600 / 905 / 1240px, mapped to EDS 600 / 900 / 1200px.
+ *   Fonts: Sun Life New Text/Display are proprietary — substituted with Figtree (OFL, self-hosted)
+ *   and a size-adjusted local Georgia for display; see migration-work/typography.json.
  */
-:root { /* @boilerplate */
-  /* colors */
-  --brand-primary: #666; /* @boilerplate */
-  --brand-secondary: #999; /* @boilerplate */
-  --background-color: white; /* @boilerplate */
-  --light-color: #f8f8f8; /* @boilerplate */
-  --dark-color: #505050; /* @boilerplate */
-  --text-color: #131313; /* @boilerplate */
-  --link-color: #3b63fb; /* @boilerplate */
-  --link-hover-color: #1d3ecf; /* @boilerplate */
-  --overlay-background-color: lightgrey; /* @boilerplate */
-  --error-color: firebrick; /* @boilerplate */
+
+/* source applies a global border-box reset (*,:after,:before{box-sizing:border-box}) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* colors — Sun Life palette (live CSS variables in parentheses) */
+  --brand-primary: #ffcb05; /* --brand-primary-400, primary CTA yellow */
+  --brand-primary-hover: #febe10; /* --brand-primary-500 */
+  --brand-secondary: #003946; /* --brand-secondary-900, dark teal */
+  --brand-tertiary: #00588b; /* --brand-tertiary-800, link blue */
+  --background-color: #fff;
+  --light-color: #fff8e0; /* --brand-primary-50, cream promo surface */
+  --dark-color: #003946; /* --brand-secondary-900, dark overlay surface */
+  --text-color: #202223; /* --grey-900 */
+  --text-secondary-color: #5b6062; /* --grey-700 */
+  --text-on-dark-color: #fff;
+  --link-color: #00588b; /* --brand-tertiary-800 */
+  --link-hover-color: #004570; /* --brand-tertiary-900 */
+  --overlay-background-color: rgb(32 34 35 / 75%); /* --overlay */
+  --error-color: #9e1a30; /* --red-800 */
 
   /* semantic color aliases — map intent onto the palette above (no marker: provenance follows the target) */
-  --color-surface: var(--background-color); /* @boilerplate */
-  --color-on-surface: var(--text-color); /* @boilerplate */
-  --color-action: var(--link-color); /* @boilerplate */
-  --color-action-hover: var(--link-hover-color); /* @boilerplate */
+  --color-surface: var(--background-color);
+  --color-on-surface: var(--text-color);
+  --color-action: var(--link-color);
+  --color-action-hover: var(--link-hover-color);
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif; /* @boilerplate */
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif; /* @boilerplate */
-  --fixed-font-family: 'Roboto Mono', menlo, consolas, monospace; /* @boilerplate */
+  --body-font-family: figtree, figtree-fallback, 'Helvetica Neue', sans-serif;
+  --heading-font-family: var(--body-font-family);
+  --display-font-family: georgia-display-fallback, georgia, 'Times New Roman', serif; /* hero / display headings (source: Sun Life New Display, a serif) */
+  --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
-  /* body sizes */
-  --body-font-size-xl: 22px; /* @boilerplate */
-  --body-font-size-l: 20px; /* @boilerplate */
-  --body-font-size-m: 18px; /* @boilerplate */
-  --body-font-size-s: 16px; /* @boilerplate */
-  --body-font-size-xs: 14px; /* @boilerplate */
+  /* body sizes (same at all breakpoints on the source) */
+  --body-font-size-xl: 20px; /* .lead */
+  --body-font-size-l: 18px; /* .body-navigation, .sl-link-lg */
+  --body-font-size-m: 16px; /* body, p */
+  --body-font-size-s: 14px; /* .body-small */
+  --body-font-size-xs: 12px; /* .body-xs */
 
-  /* heading sizes */
-  --heading-font-size-xxl: 44px; /* @boilerplate */
-  --heading-font-size-xl: 40px; /* @boilerplate */
-  --heading-font-size-l: 36px; /* @boilerplate */
-  --heading-font-size-m: 32px; /* @boilerplate */
-  --heading-font-size-s: 28px; /* @boilerplate */
-  --heading-font-size-xs: 24px; /* @boilerplate */
+  /* heading sizes (same at all breakpoints on the source) */
+  --heading-font-size-xxl: 32px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 20px;
+  --heading-font-size-xs: 20px;
 
   /* line heights & weights */
-  --body-line-height: 1.6; /* @boilerplate */
-  --heading-line-height: 1.25; /* @boilerplate */
-  --heading-font-weight: 600; /* @boilerplate */
+  --body-line-height: 1.5; /* 24px / 16px */
+  --heading-line-height: 1.2857; /* h2: 36px / 28px; other levels overridden below */
+  --heading-font-weight: 400; /* Sun Life headings are regular weight */
+  --bold-font-weight: 700; /* links, buttons, strong (source: Sun Life New Text Bold) */
 
   /* space above/below text elements */
-  --element-margin-top: 0.8em; /* @boilerplate */
-  --element-margin-bottom: 0.5em; /* @boilerplate */
+  --element-margin-top: 0;
+  --element-margin-bottom: var(--spacing-m);
+  --heading-margin-bottom: var(--spacing-xs);
+  --list-indent: 32px;
 
-  /* spacing scale */
-  --spacing-xxl: 30px; /* @boilerplate */
-  --spacing-xl: 24px; /* @boilerplate */
-  --spacing-l: 20px; /* @boilerplate */
-  --spacing-m: 16px; /* @boilerplate */
-  --spacing-s: 12px; /* @boilerplate */
-  --spacing-xs: 8px; /* @boilerplate */
+  /* spacing scale — Sun Life --3XS … --3XL (responsive values in the media queries below) */
+  --spacing-xxs: 4px; /* --3XS */
+  --spacing-xs: 8px; /* --2XS */
+  --spacing-s: 12px; /* --XS */
+  --spacing-m: 16px; /* --S */
+  --spacing-l: 24px; /* --M */
+  --spacing-xl: 32px; /* --L */
+  --spacing-xxl: 48px; /* --XL */
+  --spacing-3xl: 56px; /* --2XL */
+  --spacing-4xl: 80px; /* --3XL */
+  --section-spacing: var(--spacing-xxl); /* component rhythm: mb-sl48 / mb-lg-sl56 */
 
   /* borders */
-  --border-width-s: 1px; /* @boilerplate */
-  --border-color: var(--light-color); /* @boilerplate */
-  --border-radius-s: 4px; /* @boilerplate */
-  --border-radius-m: 8px; /* @boilerplate */
+  --border-width-s: 1px;
+  --border-color: #dcdedf; /* --grey-300 */
+  --input-border-color: #5b6062; /* --grey-700 */
+  --border-radius-s: 0; /* Sun Life uses square corners */
+  --border-radius-m: 0;
+
+  /* shadows */
+  --box-shadow-s: 0 1px 3px 2px rgb(0 0 0 / 10%);
+  --box-shadow-m: 0 4px 8px 3px rgb(0 0 0 / 8%);
+  --box-shadow-l: 0 4px 8px 3px rgb(0 0 0 / 15%), 0 1px 3px rgb(0 0 0 / 10%);
 
   /* motion */
-  --transition-duration: 0.2s; /* @boilerplate */
+  --transition-duration: 0.15s;
+  --transition-easing: ease-in-out;
 
   /* focus ring */
-  --focus-ring-width: 2px; /* @boilerplate */
-  --focus-ring-offset: 2px; /* @boilerplate */
-  --focus-ring-color: var(--link-color); /* @boilerplate */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: #0093cf; /* --brand-tertiary-500 */
 
   /* layout */
-  --max-width-site: 1200px; /* @boilerplate */
-  --icon-size: 24px; /* @boilerplate */
+  --max-width-site: 1152px; /* .container max-width: 72pc */
+  --max-width-narrow: 760px; /* rich text max-width */
+  --content-gutter: 16px;
+  --icon-size: 24px;
 
-  /* buttons (primary CTA = action color; secondary = outline) */
-  --button-margin: 12px 0; /* @boilerplate */
-  --button-padding: 0.5em 1.2em; /* @boilerplate */
-  --button-border-width: 2px; /* @boilerplate */
-  --button-border-radius: 2.4em; /* @boilerplate */
-  --button-font-weight: 500; /* @boilerplate */
-  --button-line-height: 1.25; /* @boilerplate */
-  --button-background: var(--color-action); /* @boilerplate */
-  --button-hover-background: var(--color-action-hover); /* @boilerplate */
-  --button-text-color: var(--background-color); /* @boilerplate */
-  --button-disabled-background: var(--light-color); /* @boilerplate */
+  /* buttons (primary = yellow CTA; secondary = outline; accent = large primary) */
+  --button-margin: var(--spacing-xs) 0;
+  --button-padding: 10px 32px;
+  --button-min-height: 48px;
+  --button-border-width: 2px;
+  --button-border-radius: 0;
+  --button-font-weight: var(--bold-font-weight);
+  --button-line-height: 1.5;
+  --button-background: var(--brand-primary);
+  --button-hover-background: var(--brand-primary-hover);
+  --button-text-color: #004570; /* --brand-tertiary-900 */
+  --button-secondary-border-color: var(--brand-tertiary);
+  --button-secondary-hover-background: #e1f8ff; /* --brand-tertiary-50 */
+  --button-secondary-hover-border-color: #004570; /* --brand-tertiary-900 */
+  --button-disabled-background: #eaebeb; /* --grey-200 */
+  --button-disabled-text-color: #5b6062; /* --grey-700 */
 
-  /* nav heights */
-  --nav-height: 64px; /* @boilerplate */
-  --breadcrumbs-height: 34px; /* @boilerplate */
-  --header-height: var(--nav-height); /* @boilerplate */
+  /* nav heights (source header: 57px / 73px >=600 / 120px >=1240) */
+  --nav-height: 57px;
+  --breadcrumbs-height: 34px;
+  --header-height: var(--nav-height);
 }
 
 /* fallback fonts */
-@font-face { /* @boilerplate */
-  font-family: roboto-condensed-fallback; /* @boilerplate */
-  size-adjust: 88.82%; /* @boilerplate */
-  src: local('Arial'); /* @boilerplate */
+@font-face {
+  font-family: figtree-fallback;
+  size-adjust: 87.93%;
+  src: local('Arial');
 }
 
-@font-face { /* @boilerplate */
-  font-family: roboto-fallback; /* @boilerplate */
-  size-adjust: 99.529%; /* @boilerplate */
-  src: local('Arial'); /* @boilerplate */
+@font-face {
+  font-family: georgia-display-fallback;
+  size-adjust: 98.1%;
+  src: local('Georgia');
 }
 
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
-body { /* @boilerplate */
-  display: none; /* @boilerplate */
-  margin: 0; /* @boilerplate */
-  background-color: var(--background-color); /* @boilerplate */
-  color: var(--text-color); /* @boilerplate */
-  font-family: var(--body-font-family); /* @boilerplate */
-  font-size: var(--body-font-size-s); /* @boilerplate */
-  line-height: var(--body-line-height); /* @boilerplate */
+body {
+  display: none;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  overflow-wrap: break-word;
 }
 
-body.appear { /* @boilerplate */
-  display: block; /* @boilerplate */
+body.appear {
+  display: block;
 }
 
-header { /* @boilerplate */
-  height: var(--header-height); /* @boilerplate */
+header {
+  height: var(--header-height);
 }
 
 header .header,
-footer .footer { /* @boilerplate */
-  visibility: hidden; /* @boilerplate */
+footer .footer {
+  visibility: hidden;
 }
 
 header .header[data-block-status="loaded"],
-footer .footer[data-block-status="loaded"] { /* @boilerplate */
-  visibility: visible; /* @boilerplate */
+footer .footer[data-block-status="loaded"] {
+  visibility: visible;
 }
 
 h1,
@@ -171,87 +208,136 @@ h2,
 h3,
 h4,
 h5,
-h6 { /* @boilerplate */
-  margin-top: var(--element-margin-top); /* @boilerplate, keep consistent top margin so sections/blocks line up */
-  font-family: var(--heading-font-family); /* @boilerplate */
-  font-weight: var(--heading-font-weight); /* @boilerplate */
-  line-height: var(--heading-line-height); /* @boilerplate */
-  scroll-margin: var(--spacing-xl); /* @boilerplate */
+h6 {
+  margin-top: var(--element-margin-top);
+  margin-bottom: var(--heading-margin-bottom);
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
+  scroll-margin: var(--spacing-xl);
 }
 
-h1 { font-size: var(--heading-font-size-xxl); } /* @boilerplate */
-h2 { font-size: var(--heading-font-size-xl); } /* @boilerplate */
-h3 { font-size: var(--heading-font-size-l); } /* @boilerplate */
-h4 { font-size: var(--heading-font-size-m); } /* @boilerplate */
-h5 { font-size: var(--heading-font-size-s); } /* @boilerplate */
-h6 { font-size: var(--heading-font-size-xs); } /* @boilerplate */
+/* per-level line heights — source: h1 40px, h2 36px (shared), h3 32px, h4-h6 28px */
+h1 {
+  font-size: var(--heading-font-size-xxl);
+  line-height: 1.25;
+}
+
+h2 { font-size: var(--heading-font-size-xl); }
+
+h3 {
+  font-size: var(--heading-font-size-l);
+  line-height: 1.3333;
+}
+
+h4,
+h5,
+h6 {
+  line-height: 1.4;
+}
+
+h4 { font-size: var(--heading-font-size-m); }
+h5 { font-size: var(--heading-font-size-s); }
+h6 { font-size: var(--heading-font-size-xs); }
 
 p,
 dl,
 ol,
 ul,
 pre,
-blockquote { /* @boilerplate */
-  margin-top: var(--element-margin-top); /* @boilerplate */
-  margin-bottom: var(--element-margin-bottom); /* @boilerplate */
+blockquote {
+  margin-top: var(--element-margin-top);
+  margin-bottom: var(--element-margin-bottom);
+}
+
+/* rich-text rhythm — source .cmp-text sibling rules */
+:is(p, ul, ol, dl) + h2 { margin-top: var(--spacing-3xl); }
+:is(p, ul, ol, dl) + h3 { margin-top: var(--spacing-xxl); }
+:is(p, ul, ol, dl) + :is(h4, h5, h6) { margin-top: var(--spacing-xl); }
+:is(h2, h3, h4) + :is(h3, h4, h5) { margin-top: var(--spacing-l); }
+h1 + :is(p, ul, ol) { margin-top: var(--spacing-l); }
+:is(h2, h3, h4, h5, h6) + :is(p, ul, ol) { margin-top: var(--spacing-m); }
+
+ul,
+ol {
+  padding-left: var(--list-indent);
 }
 
 ul ul, ol ol, ul ol, ol ul { /* let nested bullets maintain spacing */
- margin-top: unset; /* @boilerplate */
+  margin-top: unset;
+  margin-bottom: 0;
 }
 
 li > p { /* fixes style when DA editor adds a P. https://adobedx.slack.com/archives/C08MJQ0Q3GA/p1783696133274169 */
-  margin-block: 0; /* @boilerplate */
+  margin-block: 0;
+}
+
+strong,
+b {
+  font-weight: var(--bold-font-weight);
 }
 
 code,
-pre { /* @boilerplate */
-  font-family: var(--fixed-font-family); /* @boilerplate */
-  font-size: var(--body-font-size-s); /* @boilerplate */
+pre {
+  font-family: var(--fixed-font-family);
+  font-size: var(--body-font-size-s);
 }
 
-pre { /* @boilerplate */
-  padding: var(--spacing-s); /* @boilerplate */
-  border-radius: var(--border-radius-m); /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  overflow-x: auto; /* @boilerplate */
-  white-space: pre; /* @boilerplate */
+pre {
+  padding: var(--spacing-s);
+  border-radius: var(--border-radius-m);
+  background-color: var(--light-color);
+  overflow-x: auto;
+  white-space: pre;
 }
 
-main > div { /* @boilerplate */
-  margin: var(--spacing-xl) var(--spacing-s); /* @boilerplate */
+/* divider — source hr.sl-divider */
+hr {
+  margin: var(--spacing-xs) 0 var(--section-spacing);
+  border: 0;
+  border-top: var(--border-width-s) solid var(--border-color);
+}
+
+main > div {
+  margin: 0 var(--content-gutter);
 }
 
 input,
 textarea,
 select,
-button { /* @boilerplate */
-  font: inherit; /* @boilerplate */
+button {
+  font: inherit;
 }
 
-/* links */
-a { /* @boilerplate */
-  color: var(--link-color); /* @boilerplate */
-  text-decoration: none; /* @boilerplate */
-  overflow-wrap: break-word; /* @boilerplate */
+/* links — inline links are bold + underlined; hover darkens and removes the underline */
+a {
+  color: var(--link-color);
+  font-weight: var(--bold-font-weight);
+  text-decoration: underline;
+  overflow-wrap: break-word;
 }
 
-a:hover { /* @boilerplate */
-  color: var(--link-hover-color); /* @boilerplate */
-  text-decoration: underline; /* @boilerplate */
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 /*  ==== START color classes ==== */
 .brand-primary {
-  color: var(--brand-primary); /* @boilerplate */
+  color: var(--brand-primary);
 
-  --link-color: var(--brand-primary); /* @boilerplate */
+  --link-color: var(--brand-primary);
 }
 
 .brand-secondary {
-  color: var(--brand-secondary); /* @boilerplate */
+  color: var(--brand-secondary);
 
-  --link-color: var(--brand-secondary); /* @boilerplate */
+  --link-color: var(--brand-secondary);
 }
 
 /*  ==== END color classes ==== */
@@ -261,98 +347,111 @@ a:hover { /* @boilerplate */
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans)
    that have overriding styles at desktop breakpoint */
 .hide-mobile {
-  display: none; /* @boilerplate */
+  display: none;
 }
 
 .center, .center-mobile {
-  text-align: center; /* @boilerplate */
+  text-align: center;
 
   &.columns .columns-img-col img {
-    display: inline-block; /* @boilerplate */
+    display: inline-block;
   }
 
   ol, ul {
-    width: fit-content; /* @boilerplate */
-    margin-left: auto; /* @boilerplate */
-    margin-right: auto; /* @boilerplate */
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   li {
-    text-align: left; /* @boilerplate */
+    text-align: left;
   }
 }
 
 .left, .left-mobile {
-  text-align: left; /* @boilerplate */
+  text-align: left;
 
   &.columns .columns-img-col img {
-    display: inline-block; /* @boilerplate */
+    display: inline-block;
   }
 }
 
 .right, .right-mobile {
-  text-align: right; /* @boilerplate */
+  text-align: right;
 
   &.columns .columns-img-col img {
-    display: inline-block; /* @boilerplate */
+    display: inline-block;
   }
 
   ol, ul {
-    width: fit-content; /* @boilerplate */
-    margin-left: auto; /* @boilerplate */
+    width: fit-content;
+    margin-left: auto;
   }
 
   li {
-    text-align: left; /* @boilerplate */
+    text-align: left;
   }
 }
 
 /* ==== END alignment + display for mobile ==== */
 
 
-/* buttons */
+/* buttons — source a.sl-btn.btn (primary / secondary) */
 a.button,
-button { /* @boilerplate */
-  box-sizing: border-box; /* @boilerplate */
-  display: inline-block; /* @boilerplate */
-  max-width: 100%; /* @boilerplate */
-  margin: var(--button-margin); /* @boilerplate */
-  border: var(--button-border-width) solid transparent; /* @boilerplate */
-  border-radius: var(--button-border-radius); /* @boilerplate */
-  padding: var(--button-padding); /* @boilerplate */
-  font-family: var(--body-font-family); /* @boilerplate */
-  font-style: normal; /* @boilerplate */
-  font-weight: var(--button-font-weight); /* @boilerplate */
-  line-height: var(--button-line-height); /* @boilerplate */
-  text-align: center; /* @boilerplate */
-  text-decoration: none; /* @boilerplate */
-  background-color: var(--button-background); /* @boilerplate */
-  color: var(--button-text-color); /* @boilerplate */
-  cursor: pointer; /* @boilerplate */
-  overflow: hidden; /* @boilerplate */
-  text-overflow: ellipsis; /* @boilerplate */
-  white-space: nowrap; /* @boilerplate */
+button {
+  display: inline-block;
+  max-width: 100%;
+  min-height: var(--button-min-height);
+  margin: var(--button-margin);
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  font-style: normal;
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  cursor: pointer;
+  transition:
+    color var(--transition-duration) var(--transition-easing),
+    background-color var(--transition-duration) var(--transition-easing),
+    border-color var(--transition-duration) var(--transition-easing);
 }
 
 a.button:hover,
-a.button:focus,
-button:hover,
-button:focus { /* @boilerplate */
-  background-color: var(--button-hover-background); /* @boilerplate */
-  cursor: pointer; /* @boilerplate */
+button:hover {
+  background-color: var(--button-hover-background);
+  color: var(--button-text-color);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 button:disabled,
-button:disabled:hover { /* @boilerplate */
-  background-color: var(--button-disabled-background); /* @boilerplate */
-  cursor: unset; /* @boilerplate */
+button:disabled:hover {
+  background-color: var(--button-disabled-background);
+  color: var(--button-disabled-text-color);
+  cursor: unset;
 }
 
 a.button.secondary,
-button.secondary { /* @boilerplate */
-  background-color: unset; /* @boilerplate */
-  border: var(--button-border-width) solid currentcolor; /* @boilerplate */
-  color: var(--text-color); /* @boilerplate */
+button.secondary {
+  background-color: transparent;
+  border-color: var(--button-secondary-border-color);
+  color: var(--button-text-color);
+}
+
+a.button.secondary:hover,
+button.secondary:hover {
+  background-color: var(--button-secondary-hover-background);
+  border-color: var(--button-secondary-hover-border-color);
+}
+
+a.button.accent {
+  font-size: var(--body-font-size-l);
 }
 
 /* tooltip — authorable via [[tooltip]<a href="#" title="...">text</a>] bracket syntax */
@@ -402,157 +501,183 @@ button.secondary { /* @boilerplate */
   display: block;
 }
 
-main img { /* @boilerplate */
-  max-width: 100%; /* @boilerplate */
-  width: auto; /* @boilerplate */
-  height: auto; /* @boilerplate */
+main img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
 }
 
-.icon { /* @boilerplate */
-  display: inline-block; /* @boilerplate */
-  height: var(--icon-size); /* @boilerplate */
-  width: var(--icon-size); /* @boilerplate */
+.icon {
+  display: inline-block;
+  height: var(--icon-size);
+  width: var(--icon-size);
 }
 
-.icon img { /* @boilerplate */
-  height: 100%; /* @boilerplate */
-  width: 100%; /* @boilerplate */
+.icon img {
+  height: 100%;
+  width: 100%;
 }
 
-/* sections */
-main > .section { /* @boilerplate */
-  padding: var(--spacing-xl) 0; /* @boilerplate */
-  margin: 0; /* @boilerplate */
+/* an icon authored on its own line in default content is a feature icon (e.g. above a heading) */
+main .default-content-wrapper p:has(> .icon:only-child) .icon {
+  display: block;
+  height: 64px;
+  width: 64px;
 }
 
-main > .section > div:not(.bg-image) { /* @boilerplate */
-  max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto; /* @boilerplate */
-  padding: 0 var(--spacing-m); /* @boilerplate */
+/* sections — full-bleed wrappers; inner div constrains to 1152px with stepped gutters */
+main > .section {
+  margin: 0;
+  padding: 0 0 var(--section-spacing);
+}
+
+main > .section > div:not(.bg-image) {
+  max-width: calc(var(--max-width-site) + 2 * var(--content-gutter));
+  margin: auto;
+  padding: 0 var(--content-gutter);
 }
 
 /* Section metadata: background image sits behind content */
-main > .section.has-background { /* @boilerplate */
-  position: relative; /* @boilerplate */
-  overflow: hidden; /* @boilerplate */
+main > .section.has-background {
+  position: relative;
+  overflow: hidden;
 }
 
-main > .section.has-background > div:not(.bg-image) { /* @boilerplate */
-  position: relative; /* @boilerplate */
-  z-index: 1; /* @boilerplate */
+main > .section.has-background > div:not(.bg-image) {
+  position: relative;
+  z-index: 1;
 }
 
-main > .section.has-background > div.bg-image { /* @boilerplate */
-  position: absolute; /* @boilerplate */
-  inset: 0; /* @boilerplate */
-  z-index: 0; /* @boilerplate */
-  pointer-events: none; /* @boilerplate */
+main > .section.has-background > div.bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 
-  picture,img { /* @boilerplate */
-  display: block; /* @boilerplate */
-  width: 100%; /* @boilerplate */
-  height: 100%; /* @boilerplate */
+  picture, img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   img {
-    object-fit: cover; /* @boilerplate */
+    object-fit: cover;
   }
 }
 
-main > .section:first-of-type { /* @boilerplate */
-  margin-top: 0; /* @boilerplate */
+main > .section:first-of-type {
+  margin-top: 0;
 }
 
-@media (width >= 900px) { /* @boilerplate */
-  :root { /* @boilerplate */
-    /* body sizes increased by 2px */
-    --body-font-size-xl: 24px; /* @boilerplate */
-    --body-font-size-l: 22px; /* @boilerplate */
-    --body-font-size-m: 20px; /* @boilerplate */
-    --body-font-size-s: 18px; /* @boilerplate */
-    --body-font-size-xs: 16px; /* @boilerplate */
-  
-    /* heading sizes increased by 2px */
-    --heading-font-size-xxl: 46px; /* @boilerplate */
-    --heading-font-size-xl: 42px; /* @boilerplate */
-    --heading-font-size-l: 38px; /* @boilerplate */
-    --heading-font-size-m: 34px; /* @boilerplate */
-    --heading-font-size-s: 30px; /* @boilerplate */
-    --heading-font-size-xs: 26px; /* @boilerplate */
+/* section metadata */
+main .section.light,
+main .section.cream,
+main .section.highlight {
+  background-color: var(--light-color);
+  margin: 0;
+  padding: var(--section-spacing) 0;
+}
 
-    /* spacing scale increased by 4px */
-    --spacing-xxl: 34px; /* @boilerplate */
-    --spacing-xl: 28px; /* @boilerplate */
-    --spacing-l: 24px; /* @boilerplate */
-    --spacing-m: 20px; /* @boilerplate */
-    --spacing-s: 16px; /* @boilerplate */
-    --spacing-xs: 12px; /* @boilerplate */
+main .section.dark {
+  background-color: var(--dark-color);
+  color: var(--text-on-dark-color);
+  margin: 0;
+  padding: var(--section-spacing) 0;
+
+  --link-color: var(--text-on-dark-color);
+  --link-hover-color: var(--text-on-dark-color);
+
+  a.button.secondary {
+    border-color: currentcolor;
+    color: var(--text-on-dark-color);
   }
 
-  body[data-breadcrumbs] { /* @boilerplate */
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @boilerplate */
+  a.button.secondary:hover {
+    color: var(--dark-color);
+  }
+}
+
+/* tablet: source breakpoint 600px */
+@media (width >= 600px) {
+  :root {
+    --spacing-xl: 40px;
+    --spacing-3xl: 64px;
+    --spacing-4xl: 88px;
+    --content-gutter: 32px;
+    --nav-height: 73px;
+  }
+}
+
+/* desktop: source breakpoint 905px */
+@media (width >= 900px) {
+  :root {
+    --content-gutter: 60px;
+  }
+
+  body[data-breadcrumbs] {
+    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
   }
 
   /* ==== START alignment + display for desktop ==== */
   .hide-desktop {
-    display: none; /* @boilerplate */
+    display: none;
   }
 
   .hide-mobile {
-    display: revert; /* @boilerplate */
+    display: revert;
   }
 
   .center-mobile, .left-mobile, .right-mobile {
-    text-align: revert; /* @boilerplate */
+    text-align: revert;
 
     ol, ul {
-    margin-left: revert; /* @boilerplate */
-    margin-right: revert; /* @boilerplate */
+      margin-left: revert;
+      margin-right: revert;
     }
 
     li {
-      text-align: revert; /* @boilerplate */
+      text-align: revert;
     }
   }
 
   .center-desktop {
-    text-align: center; /* @boilerplate */
-  
-    &.columns .columns-img-col img {
-      display: inline-block; /* @boilerplate */
-    }
-  
-    ol, ul {
-      width: fit-content; /* @boilerplate */
-      margin-left: auto; /* @boilerplate */
-      margin-right: auto; /* @boilerplate */
-    }
-  
-    li {
-      text-align: left; /* @boilerplate */
-    }
-  }
-  
-  .left-desktop {
-    text-align: left; /* @boilerplate */
-  
-    &.columns .columns-img-col img {
-      display: inline-block; /* @boilerplate */
-    }
-  }
-  
-  .right-desktop {
-    text-align: right;
-  
+    text-align: center;
+
     &.columns .columns-img-col img {
       display: inline-block;
     }
-  
+
+    ol, ul {
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    li {
+      text-align: left;
+    }
+  }
+
+  .left-desktop {
+    text-align: left;
+
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  }
+
+  .right-desktop {
+    text-align: right;
+
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+
     ol, ul {
       width: fit-content;
       margin-left: auto;
     }
-  
+
     li {
       text-align: left;
     }
@@ -563,48 +688,63 @@ main > .section:first-of-type { /* @boilerplate */
   /* ==== Start widths. See /docs/span-tags.md and /docs/cell-class.md for usage ==== */
 
   div[class^="width-"], div[class*=" width-"] {
-    margin: var(--div-width-margin); /* @boilerplate */
+    margin: var(--div-width-margin);
   }
-  
+
   .width-75 {
-    width: 73.5%; /* @boilerplate */
+    width: 73.5%;
   }
-  
+
   .width-66 {
-    width: 64.5%; /* @boilerplate */
+    width: 64.5%;
   }
-  
+
   .width-50 {
-    width: 48.5%; /* @boilerplate */
+    width: 48.5%;
   }
-  
+
   .width-33 {
-    width: 31.5%; /* @boilerplate */
+    width: 31.5%;
   }
-  
+
   .width-25 {
-    width: 23.5%; /* @boilerplate */
+    width: 23.5%;
   }
-  
+
   .columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
-    align-items: var(--div-width-align-items); /* @boilerplate */
-  
+    align-items: var(--div-width-align-items);
+
     > div[class^="width-"],> div[class*=" width-"] {
-      flex: none; /* @boilerplate */
+      flex: none;
     }
   }
-  
-  /* ==== End width classes ==== */
 
-  main > .section > div:not(.bg-image) { /* @boilerplate */
-    padding: 0 var(--spacing-l); /* @boilerplate */
+  /* ==== End width classes ==== */
+}
+
+/* wide: source breakpoint 1240px */
+@media (width >= 1200px) {
+  :root {
+    --spacing-xxl: 56px;
+    --spacing-3xl: 72px;
+    --spacing-4xl: 96px;
+    --nav-height: 120px;
+  }
+
+  /* source caps rich text at 760px inside the 1152px container */
+  main > .section.narrow > div:not(.bg-image) {
+    max-width: calc(var(--max-width-narrow) + 2 * var(--content-gutter));
   }
 }
 
-/* section metadata */
-main .section.light,
-main .section.highlight { /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  margin: 0; /* @boilerplate */
-  padding: var(--spacing-xl) 0; /* @boilerplate */
+/* source disables transitions/animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

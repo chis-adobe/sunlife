@@ -1,19 +1,29 @@
-/* header design tokens (layout only; colors/typography use global tokens) */
-:root { /* @boilerplate */
-  --header-nav-max-width: 1248px; /* @boilerplate */
-  --header-nav-max-width-desktop: 1264px; /* @boilerplate */
-  --header-nav-padding: 0 var(--spacing-m); /* @boilerplate */
-  --header-nav-padding-desktop: 0 var(--spacing-l); /* @boilerplate */
-  --header-nav-gap: var(--spacing-m); /* @boilerplate */
-  --header-nav-gap-desktop: var(--spacing-l); /* @boilerplate */
-  --header-brand-width: 128px; /* @boilerplate */
-  --header-dropdown-width: 200px; /* @boilerplate */
-  --header-dropdown-padding: var(--spacing-s); /* @boilerplate */
-  --header-dropdown-left: calc(-1 * var(--spacing-m)); /* @boilerplate */
-  --header-hamburger-size: 22px; /* @boilerplate */
-  --header-hamburger-bar-width: 20px; /* @boilerplate */
-  --header-hamburger-bar-height: 2px; /* @boilerplate */
-  --header-hamburger-bar-radius: 2px; /* @boilerplate */
-  --header-dropdown-arrow-size: 6px; /* @boilerplate */
-  --header-dropdown-arrow-thickness: 2px; /* @boilerplate */
+/* header design tokens (values measured on https://www.sunlife.ca/en/ header) */
+:root {
+  --header-text-color: var(--text-color); /* #202223 main nav + panel copy */
+  --header-utility-color: #3d4142; /* --grey-800: utility + tools links */
+  --header-muted-color: #71777a; /* --grey-600: region dropdown links */
+  --header-current-color: #004570; /* --brand-tertiary-900: current region */
+  --header-accent-color: var(--brand-tertiary); /* current language marker */
+  --header-divider-color: var(--border-color);
+  --header-hover-background: #f4f4f5; /* language list hover */
+  --header-search-background: #f9fafa; /* search bar surface */
+  --header-search-input-border: var(--text-color);
+  --header-dropdown-shadow: 0 4px 8px 3px rgb(0 0 0 / 8%);
+  --header-utility-height: 39px;
+  --header-bar-height: 80px;
+  --header-bar-height-mobile: 56px;
+  --header-bar-height-tablet: 72px;
+  --header-logo-width: 128px;
+  --header-logo-width-mobile: 116px;
+  --header-icon-size: 24px;
+  --header-chevron-size: 20px;
+  --header-panel-padding: 40px 44px;
+  --header-panel-column-gap: 40px;
+  --header-search-height: 136px;
+  --header-search-offset: 56px;
+  --header-search-close-offset: 32px;
+  --header-search-input-width: 614px;
+  --header-search-button-width: 150px;
+  --header-drawer-transition: transform 0.3s ease-in-out;
 }

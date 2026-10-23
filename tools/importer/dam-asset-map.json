@@ -1,0 +1,56 @@
+{
+  "damRoot": "/content/dam/sunlife",
+  "author": "https://author-p130746-e1275972.adobeaemcloud.com",
+  "delivery": "https://delivery-p130746-e1275972.adobeaemcloud.com",
+  "note": "Homepage images and their AEM Assets paths. Replace each image in the document with the asset picked from AEM Assets (Dynamic Media delivery) - no code change needed.",
+  "assets": [
+    {
+      "damPath": "/content/dam/sunlife/global/og-image/sunlife/sunlife-og-image-rgb-primary-public.png",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/brandmod-homepage-canada-540x345.png",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/1920x520-desktop-hp-hero-690335396.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/785x442-display-web-iwd2025-adobe-593496660.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/adobe-648260625-e-cellphone-sitting-on-desk-530x345.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/apple-app-store-badge-en-132x44.png",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/frl144-eating-healthy-on-a-budget-534x400.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/google-play-store-badge-en-146x44.png",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/health-product-section-x2.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/insurance-homepage-ca.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/int289-build-emergency-fund-534x400.jpg",
+      "usedOn": "/en/index"
+    },
+    {
+      "damPath": "/content/dam/sunlife/regional/canada/images/cxo/investments-homepage-ca.jpg",
+      "usedOn": "/en/index"
+    }
+  ]
+}

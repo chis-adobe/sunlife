@@ -4,4 +4,17 @@
   --hero-padding-desktop: var(--spacing-xl) var(--spacing-l); /* @boilerplate */
   --hero-min-height: 300px; /* @boilerplate */
   --hero-heading-max-width: var(--max-width-site); /* @boilerplate */
+
+  /* hero (panel) variant tokens — source .sl-banner .card-content-overlay */
+  --hero-panel-background: rgb(0 57 70 / 92%); /* --brand-secondary (#003946) at 92% opacity */
+  --hero-panel-text-color: var(--text-on-dark-color);
+  --hero-panel-padding: var(--spacing-l) var(--spacing-m);
+  --hero-panel-padding-desktop: var(--spacing-l);
+  --hero-panel-width: 368px; /* source .col-lg-4 content width */
+  --hero-panel-min-height-desktop: 520px;
+  --hero-panel-image-aspect-ratio: 375 / 435; /* source mobile crop */
+  --hero-panel-heading-font-family: var(--display-font-family);
+  --hero-panel-heading-margin: 0 0 var(--spacing-m);
+  --hero-panel-cta-gap: var(--spacing-xl);
+  --hero-panel-cta-line-height: 1.3333; /* 24px at 18px: keeps the 48px source button height */
 }

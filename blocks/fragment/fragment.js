@@ -33,7 +33,11 @@ export async function loadFragment(path) {
       // reset base path for media to fragment base (whitelist attr to avoid prototype pollution)
       const resetAttributeBase = (tag, attr) => {
         if (attr !== 'src' && attr !== 'srcset') return;
-        main.querySelectorAll(`${tag}[${attr}^="./media_"]`).forEach((elem) => {
+        // document-relative references (`./media_*`, `images/logo.svg`) belong to the fragment,
+        // not to the page that includes it
+        const isRelative = (value) => value && !/^([a-z][a-z0-9+.-]*:|\/|#)/i.test(value);
+        main.querySelectorAll(`${tag}[${attr}]`).forEach((elem) => {
+          if (!isRelative(elem.getAttribute(attr))) return;
           const { href } = new URL(elem.getAttribute(attr), new URL(path, window.location));
           if (attr === 'src') elem.src = href;
           else if (attr === 'srcset') elem.srcset = href;

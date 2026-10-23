@@ -21,6 +21,27 @@
       "id": "columns",
       "fields": [
         {
+          "component": "select",
+          "name": "classes",
+          "label": "Variant",
+          "value": "",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Default",
+              "value": ""
+            },
+            {
+              "name": "Media (image beside text)",
+              "value": "media"
+            },
+            {
+              "name": "Banner (cream card)",
+              "value": "banner"
+            }
+          ]
+        },
+        {
           "component": "text",
           "valueType": "number",
           "name": "columns",
@@ -40,11 +61,18 @@
   "filters": [
     {
       "id": "columns",
-      "components": ["column"]
+      "components": [
+        "column"
+      ]
     },
     {
       "id": "column",
-      "components": ["text", "image", "button", "title"]
+      "components": [
+        "text",
+        "image",
+        "button",
+        "title"
+      ]
     }
   ]
 }

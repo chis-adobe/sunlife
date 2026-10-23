@@ -261,17 +261,17 @@ Twenty blocks ship with the project. Many call `getBlockId()` to assign unique i
 | Block | Purpose | Variants / Options | Key Details |
 |-------|---------|--------------------|-------------|
 | `accordion` | Expand/collapse list of label + body rows | — | Rebuilds rows into `<ul>` of `.accordion-item`; toggles `.active` on label click; preserves UE instrumentation |
-| `card` | Shared single-card builder (not authored directly) | — | Exports `createCard(row)` producing a card `<li>` with `.cards-card-image` / `.cards-card-body`; reused by `cards` and `card-carousel` |
-| `cards` | Grid of cards | — | Builds `<ul>` of cards; optimizes images via `createOptimizedPicture` (750px); ARIA region |
+| `card` | Shared single-card builder (not authored directly) | — | Exports `createCard(row)` producing a card `<li>` with `.cards-card-image` / `.cards-card-body`; reused by `cards` and `card-carousel`. Also exports `decorateCardSelect(li, idPrefix)` (authored link list → native `<select>` that retargets the card CTA) and `markCardCta(li)` (adds `.cards-card-cta` to a trailing link-only paragraph) |
+| `cards` | Grid of cards | `icon` (icon, h3, optional bold subtitle / bullet list, bottom-aligned CTA; a nested list of links becomes a product `<select>` + CTA), `article` (image on top, linked h3 makes the whole card clickable, description); both add `cards-cols-2` / `cards-cols-3` from the card count | Builds `<ul>` of cards; optimizes images via `createOptimizedPicture` (750px, SVG icons skipped); ARIA region |
 | `card-carousel` | Horizontally sliding cards | single-slide auto-detected | Uses shared `slider.js` (`createSliderControls`, `initSlider`, `showSlide`); reuses `createCard` |
 | `carousel` | Full-width slide carousel (image + content) | single-slide auto-detected | Uses `slider.js`; each slide split into `.carousel-slide-image` / `.carousel-slide-content`; sets `aria-labelledby` from heading |
-| `columns` | Multi-column layout | auto class `columns-{N}-cols` | Adds `.columns-img-col` to image-only columns; ARIA region |
+| `columns` | Multi-column layout | auto class `columns-{N}-cols`; `media` (image beside h2 / text / outlined CTA), `banner` (cream inset card, image cover-fills its half, badge image links supported; image cell first = mirrored) | Adds `.columns-img-col` to image-only columns; image stacks first on mobile, author cell order from 900px; ARIA region |
 | `embed` | Embeds videos/social posts | `embed-youtube`, `embed-vimeo` (auto from URL), `embed-is-loaded`, `embed-placeholder` | Lazy-loads on intersection; uses `utils.js` embed builders; default iframe wrapper for other hosts |
 | `footer` | Site footer | — | Loads footer fragment from `footer` metadata path (default `/footer`) via `loadFragment` |
 | `form` | Renders a form from a JSON definition | — | Fetches form JSON, builds fields via `form-fields.js`, groups `fieldset`s, sets `data-action` submit href |
 | `fragment` | Inline another document as content | — | `loadFragment(path)` fetches `.plain.html`, sanitizes via DOMPurify, copies section classes onto host; also drives auto-blocking of `/fragments/` links |
 | `header` | Site navigation / header | `nav-drop` (dropdown sections), `nav-hamburger` (mobile) | Loads nav fragment from `nav` metadata; desktop/mobile behavior via `matchMedia(900px)`; ESC + focus-out close handling |
-| `hero` | Full-bleed hero with background image | CSS-only block | No JS (`hero.js` is empty); styled via `hero.css` + `hero-tokens.css`; picture positioned behind heading |
+| `hero` | Full-bleed hero with background image | `panel` (photo + dark teal text panel with h1, copy, CTA: stacked on mobile, panel overlays the photo from 900px) | Default is CSS-only; `hero.js` only splits `panel` content into `.hero-media` / `.hero-content` rows; styled via `hero.css` + `hero-tokens.css` |
 | `modal` | Modal dialog | — | No `decorate`; links to `/modals/` auto-open via `autolinkModals` in `scripts.js`; exports `createModal`/`openModal`; uses native `<dialog>` |
 | `quote` | Blockquote with attribution | — | `.quote-quotation` + `.quote-attribution`; wraps `<em>` attribution in `<cite>` (DOMPurify-sanitized); ARIA region |
 | `search` | Client-side site search | `no-results` state | Reads search index, highlights matching terms, optimizes result images, computes heading level dynamically |

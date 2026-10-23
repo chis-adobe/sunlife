@@ -27,3 +27,201 @@
   aspect-ratio: var(--cards-image-aspect-ratio); /* @boilerplate */
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
+
+/* ==== shared grid for the icon / article variants: 1 col, 2 cols >= 600, 2 or 3 >= 900 ==== */
+.cards.icon > ul,
+.cards.article > ul {
+  grid-template-columns: 1fr;
+}
+
+/* ==== cards (icon): icon, h3, optional subtitle / list, CTA ==== */
+
+/* the `icon` option class collides with the global `.icon` (inline icon) utility in styles.css */
+.cards.icon {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.cards.icon > ul {
+  gap: var(--cards-icon-row-gap) var(--cards-icon-column-gap);
+}
+
+.cards.icon > ul > li {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  padding-bottom: var(--cards-icon-card-padding-bottom);
+  background-color: transparent;
+}
+
+.cards.icon .cards-card-image {
+  margin-bottom: var(--cards-icon-margin-bottom);
+}
+
+.cards.icon > ul > li .cards-card-image img {
+  width: auto;
+  height: var(--cards-icon-size);
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* authored `:name:` icons: size the icon span itself (global .icon is a small inline size) */
+.cards.icon > ul > li .cards-card-image .icon {
+  display: block;
+  width: var(--cards-icon-size);
+  height: var(--cards-icon-size);
+}
+
+.cards.icon > ul > li .cards-card-image .icon img {
+  width: 100%;
+}
+
+.cards.icon .cards-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 0;
+}
+
+.cards.icon .cards-card-body > * {
+  margin-top: 0;
+  margin-bottom: var(--spacing-m);
+}
+
+.cards.icon .cards-card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.cards.icon .cards-card-body h3,
+.cards.icon .cards-card-body h4 {
+  font-size: var(--cards-icon-heading-font-size);
+  line-height: var(--cards-icon-heading-line-height);
+}
+
+/* CTA sits at the bottom so buttons align across a row */
+.cards.icon .cards-card-body > .cards-card-cta {
+  margin-top: auto;
+  padding-top: calc(var(--cards-icon-cta-gap) - var(--spacing-m));
+}
+
+.cards.icon .cards-card-body > :is(p, ul, ol, div) + .cards-card-cta {
+  padding-top: var(--cards-icon-cta-gap);
+}
+
+.cards.icon .cards-card-cta a.button {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* product chooser (enhanced from an authored list of links) */
+.cards.icon .cards-card-select {
+  margin-top: auto;
+  padding-top: var(--cards-icon-cta-gap);
+}
+
+.cards.icon .cards-card-body > .cards-card-select + .cards-card-cta {
+  margin-top: var(--cards-select-gap);
+  padding-top: 0;
+}
+
+.cards.icon .cards-card-select-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cards.icon .cards-card-select select {
+  display: block;
+  width: 100%;
+  min-height: var(--cards-select-height);
+  box-sizing: border-box;
+  margin: 0;
+  border: var(--cards-select-border);
+  border-radius: 0;
+  padding: var(--cards-select-padding);
+  background: var(--cards-select-background) var(--cards-select-chevron) no-repeat right var(--spacing-m) center / var(--cards-select-chevron-size);
+  color: var(--cards-select-color);
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ==== cards (article): image on top, linked title, description ==== */
+.cards.article > ul {
+  gap: var(--cards-article-gap);
+}
+
+.cards.article > ul > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: var(--cards-article-border);
+  transition: box-shadow var(--transition-duration) var(--transition-easing);
+}
+
+.cards.article > ul > li:hover,
+.cards.article > ul > li:focus-within {
+  box-shadow: var(--cards-article-hover-shadow);
+}
+
+.cards.article > ul > li img {
+  display: block;
+  aspect-ratio: var(--cards-article-image-aspect-ratio);
+}
+
+.cards.article .cards-card-body {
+  margin: 0;
+  padding: var(--cards-article-body-padding);
+}
+
+.cards.article .cards-card-body > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.cards.article .cards-card-body > :is(h2, h3, h4) {
+  margin-bottom: var(--spacing-m);
+  font-size: var(--cards-article-title-font-size);
+  line-height: var(--cards-article-title-line-height);
+}
+
+.cards.article .cards-card-body > :is(h2, h3, h4) a {
+  color: var(--cards-article-title-color);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.cards.article .cards-card-body > :is(h2, h3, h4) a:hover {
+  text-decoration: underline;
+}
+
+/* the title link makes the whole card clickable */
+.cards.article .cards-card-body > :is(h2, h3, h4) a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+@media (width >= 600px) {
+  .cards.icon > ul,
+  .cards.article > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  .cards.cards-cols-3.icon > ul,
+  .cards.cards-cols-3.article > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards.icon > ul {
+    row-gap: var(--cards-icon-row-gap-desktop);
+  }
+}

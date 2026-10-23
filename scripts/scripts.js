@@ -129,6 +129,31 @@ export function getBlockId(name) {
   return `${name}_${forBlock}`;
 }
 
+// locale whose global fragments (nav, footer) serve pages outside a locale folder
+const DEFAULT_LOCALE = 'en';
+
+/**
+ * Resolves the path of a global fragment (e.g. `nav`, `footer`).
+ * An explicit page metadata value wins; otherwise the fragment of the page's locale folder is
+ * used (`/en/page` -> `/en/nav`); pages outside a locale folder use the default locale. On a local preview
+ * that serves content under `/content/` (html folder), that prefix is kept so fragments resolve.
+ * @param {string} name Fragment name and metadata key
+ * @returns {string} Fragment path
+ */
+export function getFragmentPath(name) {
+  const { pathname, hostname } = window.location;
+  const isLocal = ['localhost', '127.0.0.1'].includes(hostname);
+  const prefix = isLocal && pathname.startsWith('/content/') ? '/content' : '';
+  const meta = getMetadata(name);
+  if (meta) {
+    const metaPath = new URL(meta, window.location).pathname;
+    return metaPath.startsWith(`${prefix}/`) ? metaPath : `${prefix}${metaPath}`;
+  }
+  const [locale] = pathname.slice(prefix.length).split('/').filter(Boolean);
+  const isLocale = /^[a-z]{2}(-[a-z]{2})?$/.test(locale || '');
+  return `${prefix}/${isLocale ? locale : DEFAULT_LOCALE}/${name}`;
+}
+
 /**
  * load fonts.css and set a session storage flag
  */
@@ -206,10 +231,12 @@ function buildAutoBlocks(main) {
 
     buildWidgetAutoBlocks(main);
 
-    // auto-embed bare YouTube/Vimeo links, wherever they appear
+    // auto-embed bare YouTube/Vimeo links (link text is the URL), wherever they appear;
+    // labelled links (e.g. a social "Follow us on YouTube" icon link) stay links
     if (FEATURES.videoLinks) {
+      const isBare = (a) => a.textContent.trim().replace(/\/$/, '') === a.href.replace(/\/$/, '');
       const videoLinks = [...main.querySelectorAll('a[href]')]
-        .filter((a) => !a.closest('.embed, .video') && isVideoLink(a.href));
+        .filter((a) => !a.closest('.embed, .video') && isVideoLink(a.href) && isBare(a));
       videoLinks.forEach((a) => {
         const { parentElement } = a;
         const embedBlock = buildBlock('embed', { elems: [a] });
@@ -406,11 +433,122 @@ export function decorateSections(main) {
 /* === END SECTIONS === */
 
 
+/* === AEM ASSETS / DYNAMIC MEDIA === */
+
+// Dynamic Media with OpenAPI delivery: https://delivery-p<program>-e<env>.adobeaemcloud.com
+const DM_HOST = /^delivery-p\d+-e\d+\.adobeaemcloud\.com$/;
+const DM_ASSET_PATH = /^\/adobe\/assets\/urn:aaid:aem:[0-9a-f-]+/i;
+const DM_IMAGE_EXT = /\.(avif|gif|jpe?g|png|webp)$/i;
+
+/**
+ * True when the URL is an AEM Assets Dynamic Media (OpenAPI) delivery URL.
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isDynamicMediaUrl(url) {
+  try {
+    const { hostname, pathname } = new URL(url, window.location.href);
+    return DM_HOST.test(hostname) && DM_ASSET_PATH.test(pathname);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Builds a responsive <picture> for a Dynamic Media asset. Dynamic Media renders each
+ * rendition server-side: the format comes from the file extension, size from `width`.
+ * @param {string} src Dynamic Media delivery URL
+ * @param {string} [alt] image alt text
+ * @param {boolean} [eager] load eagerly (LCP image)
+ * @param {Array<{media?: string, width: string}>} [breakpoints]
+ * @returns {HTMLPictureElement}
+ */
+export function createDynamicMediaPicture(src, alt = '', eager = false, breakpoints = [
+  { media: '(width >= 600px)', width: '2000' },
+  { width: '750' },
+]) {
+  const url = new URL(src, window.location.href);
+  const [assetPath] = url.pathname.match(DM_ASSET_PATH);
+  const fileName = url.pathname.split('/as/')[1] || 'image.jpg';
+  const seoName = fileName.replace(DM_IMAGE_EXT, '') || 'image';
+  const rendition = (format, width) => `${url.origin}${assetPath}/as/${seoName}.${format}?width=${width}&quality=85`;
+
+  const picture = document.createElement('picture');
+  picture.dataset.dm = 'true';
+  ['avif', 'webp'].forEach((format) => {
+    breakpoints.forEach((br) => {
+      const source = document.createElement('source');
+      if (br.media) source.media = br.media;
+      source.type = `image/${format}`;
+      source.srcset = rendition(format, br.width);
+      picture.append(source);
+    });
+  });
+  breakpoints.filter((br) => br.media).forEach((br) => {
+    const source = document.createElement('source');
+    source.media = br.media;
+    source.srcset = rendition('jpg', br.width);
+    picture.append(source);
+  });
+  const img = document.createElement('img');
+  img.src = rendition('jpg', breakpoints[breakpoints.length - 1].width);
+  img.alt = alt;
+  img.loading = eager ? 'eager' : 'lazy';
+  picture.append(img);
+  return picture;
+}
+
+/**
+ * Renders AEM Assets images delivered through Dynamic Media. Authors pick assets from
+ * AEM Assets in Document Authoring; depending on the picker setting the asset arrives as an
+ * image or as a link to its delivery URL. Both become a responsive Dynamic Media picture
+ * before blocks are decorated, so any block image can be swapped for a DAM asset.
+ * @param {Element} main The container element
+ */
+export function decorateDynamicMedia(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    if (!isDynamicMediaUrl(a.href) || !DM_IMAGE_EXT.test(new URL(a.href).pathname)) return;
+    const text = a.textContent.trim();
+    // the picker inserts the URL (or file name) as link text; a custom label is the alt text
+    const alt = a.title || (text && text !== a.href && !DM_IMAGE_EXT.test(text) ? text : '');
+    a.replaceWith(createDynamicMediaPicture(a.href, alt));
+  });
+  main.querySelectorAll('img[src]').forEach((img) => {
+    if (!isDynamicMediaUrl(img.src) || img.closest('picture[data-dm]')) return;
+    const picture = createDynamicMediaPicture(img.src, img.alt, img.loading === 'eager');
+    moveInstrumentation(img, picture.querySelector('img'));
+    (img.closest('picture') || img).replaceWith(picture);
+  });
+}
+
+/**
+ * Converts authored icon notation (`:name:`) that reached the browser as plain text into
+ * `span.icon` elements. The EDS pipeline normally does this; raw `.plain.html` content
+ * (local preview, imports) does not. Only text nodes that consist of a single token are
+ * converted, so prose containing colons is never touched.
+ * @param {Element} main The container element
+ */
+export function decorateIconNotation(main) {
+  const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+  const matches = [];
+  while (walker.nextNode()) {
+    const m = walker.currentNode.nodeValue.trim().match(/^:([a-z0-9-]+):$/);
+    if (m) matches.push([walker.currentNode, m[1]]);
+  }
+  matches.forEach(([node, name]) => {
+    const span = document.createElement('span');
+    span.className = `icon icon-${name}`;
+    node.replaceWith(span);
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 export function decorateMain(main) {
+  decorateDynamicMedia(main);
+  decorateIconNotation(main);
   // hopefully forward compatible button decoration
   decorateIcons(main);
   buildAutoBlocks(main);

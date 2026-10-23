@@ -123,6 +123,32 @@
     ]
   },
   {
+    "id": "cards",
+    "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "label": "Variant",
+        "value": "",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Icon",
+            "value": "icon"
+          },
+          {
+            "name": "Article",
+            "value": "article"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "carousel-item",
     "fields": [
       {
@@ -149,6 +175,27 @@
   {
     "id": "columns",
     "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "label": "Variant",
+        "value": "",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Media (image beside text)",
+            "value": "media"
+          },
+          {
+            "name": "Banner (cream card)",
+            "value": "banner"
+          }
+        ]
+      },
       {
         "component": "number",
         "valueType": "number",
@@ -181,6 +228,23 @@
   {
     "id": "hero",
     "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "label": "Variant",
+        "value": "",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Panel (image with text panel)",
+            "value": "panel"
+          }
+        ]
+      },
       {
         "component": "reference",
         "valueType": "string",

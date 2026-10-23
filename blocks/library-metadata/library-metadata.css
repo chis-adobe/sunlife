@@ -1,0 +1,19 @@
+.library-metadata {
+  border-left: 4px solid var(--brand-primary);
+  padding: var(--spacing-xs) var(--spacing-m);
+  margin-bottom: var(--spacing-l);
+  background-color: var(--light-color);
+}
+
+.library-metadata p {
+  margin: 0;
+}
+
+.library-metadata .library-metadata-name {
+  font-size: var(--body-font-size-l);
+  font-weight: 700;
+}
+
+.library-metadata .library-metadata-description {
+  font-size: var(--body-font-size-s);
+}

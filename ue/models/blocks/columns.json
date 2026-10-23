@@ -44,6 +44,18 @@
         "id": "columns",
         "fields": [
           {
+            "component": "select",
+            "name": "classes",
+            "label": "Variant",
+            "value": "",
+            "valueType": "string",
+            "options": [
+              { "name": "Default", "value": "" },
+              { "name": "Media (image beside text)", "value": "media" },
+              { "name": "Banner (cream card)", "value": "banner" }
+            ]
+          },
+          {
             "component": "number",
             "valueType": "number",
             "name": "columns",

@@ -17,6 +17,79 @@
   display: block; /* @boilerplate */
 }
 
+/* ==== shared text styles for the media / banner variants ==== */
+.columns.media h2,
+.columns.banner h2 {
+  margin: 0 0 var(--spacing-m);
+}
+
+.columns.media h2 {
+  font-size: var(--columns-media-heading-font-size);
+  line-height: var(--columns-media-heading-line-height);
+}
+
+.columns.banner h2 {
+  font-size: var(--columns-banner-heading-font-size);
+  line-height: var(--columns-banner-heading-line-height);
+}
+
+.columns.media > div > div > :last-child,
+.columns.banner > div > div > :last-child {
+  margin-bottom: 0;
+}
+
+.columns.media p.button-wrapper,
+.columns.banner p.button-wrapper {
+  margin: var(--spacing-l) 0 0;
+}
+
+.columns.media a.button,
+.columns.banner a.button {
+  margin: 0;
+}
+
+/* ==== columns (media): image beside text ==== */
+.columns.media > div {
+  gap: var(--columns-media-gap);
+}
+
+.columns.media > div > .columns-img-col img {
+  width: 100%;
+  aspect-ratio: var(--columns-media-image-aspect-ratio);
+  object-fit: cover;
+}
+
+/* ==== columns (banner): cream inset card ==== */
+.columns.banner > div {
+  gap: var(--columns-banner-gap);
+  padding: var(--columns-banner-padding);
+  background-color: var(--columns-banner-background);
+}
+
+.columns.banner > div + div {
+  margin-top: var(--columns-banner-gap);
+}
+
+.columns.banner > div > .columns-img-col {
+  line-height: 0;
+}
+
+.columns.banner > div > .columns-img-col img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* app-store style badge links */
+.columns.banner p > a > picture {
+  display: inline-block;
+  line-height: 0;
+}
+
+.columns.banner a img {
+  width: auto;
+  height: var(--columns-banner-badge-height);
+}
+
 @media (width >= 900px) { /* @boilerplate */
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -27,5 +100,36 @@
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  .columns.media > div {
+    gap: var(--columns-media-gap-desktop);
+  }
+
+  /* equal tracks regardless of the text cell's inner padding */
+  .columns.banner > div {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    align-items: stretch;
+  }
+
+  /* image follows the text height (cover-cropped) instead of driving the card height */
+  .columns.banner > div > .columns-img-col {
+    position: relative;
+    min-height: var(--columns-banner-image-min-height-desktop);
+  }
+
+  .columns.banner > div > .columns-img-col img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .columns.banner > div > div:not(.columns-img-col) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--columns-banner-text-padding-desktop);
   }
 }
