@@ -1,0 +1,106 @@
+@import url('./video-chapters-tokens.css');
+
+.video-chapters {
+  display: grid;
+  gap: var(--video-chapters-gap);
+  max-width: var(--video-chapters-max-width);
+  margin: var(--video-chapters-margin);
+}
+
+/* reserve the player space to avoid layout shift while the player loads */
+.video-chapters .video-chapters-player {
+  aspect-ratio: var(--video-chapters-aspect-ratio);
+  width: 100%;
+  background: var(--video-chapters-player-background);
+}
+
+.video-chapters .video-chapters-player.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-chapters .video-chapters-player.error a {
+  color: var(--text-on-dark-color);
+}
+
+.video-chapters .video-chapters-label {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--video-chapters-label-font-size);
+  font-weight: var(--bold-font-weight);
+}
+
+.video-chapters .video-chapters-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: var(--video-chapters-list-max-height);
+  overflow-y: auto;
+  border-top: var(--border-width-s) solid var(--video-chapters-item-border-color);
+}
+
+.video-chapters .video-chapters-list li {
+  margin: 0;
+  border-bottom: var(--border-width-s) solid var(--video-chapters-item-border-color);
+}
+
+.video-chapters .video-chapters-list button {
+  display: flex;
+  align-items: baseline;
+  gap: var(--video-chapters-item-gap);
+  width: 100%;
+  margin: 0;
+  padding: var(--video-chapters-item-padding);
+  border: 0;
+  border-left: var(--video-chapters-item-active-indicator-width) solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--text-color);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.video-chapters .video-chapters-list button:hover {
+  background: var(--video-chapters-item-hover-background);
+}
+
+.video-chapters .video-chapters-list button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(var(--focus-ring-width) * -1);
+}
+
+.video-chapters .video-chapters-list button[aria-current='true'] {
+  background: var(--video-chapters-item-active-background);
+  border-left-color: var(--video-chapters-item-active-indicator-color);
+  font-weight: var(--bold-font-weight);
+}
+
+.video-chapters .video-chapters-time {
+  flex: none;
+  min-width: var(--video-chapters-time-min-width);
+  color: var(--video-chapters-time-color);
+  font-size: var(--body-font-size-s);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Desktop+: chapter list sits beside the player */
+@media (width >= 900px) {
+  .video-chapters.has-chapters {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  /* contain: size keeps the list from growing the row; it stretches to the player's height */
+  .video-chapters.has-chapters .video-chapters-nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    contain: size;
+  }
+
+  .video-chapters.has-chapters .video-chapters-list {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+  }
+}

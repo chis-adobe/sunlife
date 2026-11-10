@@ -1,0 +1,19 @@
+/* video-chapters design tokens */
+:root {
+  --video-chapters-max-width: var(--max-width-site);
+  --video-chapters-margin: var(--spacing-m) auto;
+  --video-chapters-gap: var(--spacing-l);
+  --video-chapters-aspect-ratio: 16 / 9;
+  --video-chapters-player-background: var(--dark-color);
+  --video-chapters-list-max-height: 480px;
+  --video-chapters-item-padding: var(--spacing-s) var(--spacing-m);
+  --video-chapters-item-gap: var(--spacing-m);
+  --video-chapters-item-border-color: var(--border-color);
+  --video-chapters-item-hover-background: var(--light-color);
+  --video-chapters-item-active-background: var(--light-color);
+  --video-chapters-item-active-indicator-color: var(--brand-primary);
+  --video-chapters-item-active-indicator-width: 4px;
+  --video-chapters-time-color: var(--text-secondary-color);
+  --video-chapters-time-min-width: 3.5em;
+  --video-chapters-label-font-size: var(--body-font-size-l);
+}
