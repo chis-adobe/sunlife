@@ -177,7 +177,19 @@ function setActiveChapter(list, chapters, currentTime) {
   });
 }
 
+/**
+ * Language name of the page (e.g. 'English' for lang="en"), used to switch on the matching caption
+ * track. Caption tracks are labelled with the language name in Dynamic Media.
+ * @returns {string|null}
+ */
+function getCaptionLanguage() {
+  const code = document.documentElement.lang?.split('-')[0];
+  if (!code || !/^[a-z]{2,3}$/i.test(code)) return null;
+  return new Intl.DisplayNames(['en'], { type: 'language' }).of(code) || null;
+}
+
 async function initPlayer(playerEl, video, chaptersUrl, smartCrop) {
+  const language = getCaptionLanguage();
   await loadPlayerLibraries(video.origin);
   const player = await window.dmViewers.VideoPlayer.init(playerEl.id, {
     sources: {
@@ -187,6 +199,7 @@ async function initPlayer(playerEl, video, chaptersUrl, smartCrop) {
     posterImage: `${video.assetUrl}/as/thumbnail.jpeg?width=1280&height=720`,
     ...(chaptersUrl && { chapter: chaptersUrl }),
     ...(smartCrop && { mode: 'smartcrop' }),
+    ...(language && { language }),
     solution: 'polaris',
     autoplay: false,
     controls: true,
