@@ -3,10 +3,10 @@
  * Plays an AEM Dynamic Media (with OpenAPI) video with chapter markers on the timeline
  * and a clickable, always-visible chapter list that seeks the video.
  *
- * Authoring (one cell per row):
- *   row 1: link to the video delivery URL  (.../adobe/assets/urn:aaid:aem:<id>[/play])
- *   row 2: link to the chapters WebVTT file (.../original/as/<name>.vtt)
- *   row 3: (optional) label shown above the chapter list
+ * Authoring (cells are read in order, as rows or as columns of one row):
+ *   cell 1: link to the video delivery URL  (.../adobe/assets/urn:aaid:aem:<id>[/play])
+ *   cell 2: link to the chapters WebVTT file (.../original/as/<name>.vtt)
+ *   cell 3: (optional) label shown above the chapter list
  */
 
 import { loadCSS, loadScript } from '../../scripts/aem.js';
@@ -195,16 +195,17 @@ async function initPlayer(playerEl, video, chaptersUrl) {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
-  const rows = [...block.children];
-  const videoLink = rows[0]?.querySelector('a');
-  const chaptersLink = rows[1]?.querySelector('a');
-  const label = rows[2]?.textContent.trim();
+  // authors may put the values in separate rows or as columns of one row; read cells in order
+  const cells = [...block.children].flatMap((row) => [...row.children]);
+  const videoLink = cells[0]?.querySelector('a');
+  const chaptersLink = cells[1]?.querySelector('a');
+  const label = cells[2]?.textContent.trim();
 
   const video = videoLink && parseVideoUrl(videoLink.href);
   if (!video) {
     // leave the authored content in place when the video link is missing or not supported
     // eslint-disable-next-line no-console
-    console.warn('video-chapters: expected a Dynamic Media with OpenAPI video link in the first row');
+    console.warn('video-chapters: expected a Dynamic Media with OpenAPI video link in the first cell');
     return;
   }
   const chaptersUrl = chaptersLink ? parseChaptersUrl(chaptersLink.href) : null;
