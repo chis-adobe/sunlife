@@ -14,6 +14,11 @@
   background: var(--video-chapters-player-background);
 }
 
+/* smart crop: give small screens a taller player so the cropped subject fills the frame */
+.video-chapters.smartcrop .video-chapters-player {
+  aspect-ratio: var(--video-chapters-smartcrop-aspect-ratio);
+}
+
 .video-chapters .video-chapters-player.error {
   display: flex;
   align-items: center;
@@ -86,6 +91,10 @@
 
 /* Desktop+: chapter list sits beside the player */
 @media (width >= 900px) {
+  .video-chapters.smartcrop .video-chapters-player {
+    aspect-ratio: var(--video-chapters-aspect-ratio);
+  }
+
   .video-chapters.has-chapters {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }

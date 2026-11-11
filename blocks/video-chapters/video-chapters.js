@@ -7,6 +7,10 @@
  *   cell 1: link to the video delivery URL  (.../adobe/assets/urn:aaid:aem:<id>[/play])
  *   cell 2: link to the chapters WebVTT file (.../original/as/<name>.vtt)
  *   cell 3: (optional) label shown above the chapter list
+ *
+ * Variants:
+ *   smartcrop: plays the video's Dynamic Media smart crops (the video must have smart crops
+ *   generated); the player follows the subject and picks the crop that fits the player size.
  */
 
 import { loadCSS, loadScript } from '../../scripts/aem.js';
@@ -173,7 +177,7 @@ function setActiveChapter(list, chapters, currentTime) {
   });
 }
 
-async function initPlayer(playerEl, video, chaptersUrl) {
+async function initPlayer(playerEl, video, chaptersUrl, smartCrop) {
   await loadPlayerLibraries(video.origin);
   const player = await window.dmViewers.VideoPlayer.init(playerEl.id, {
     sources: {
@@ -182,6 +186,7 @@ async function initPlayer(playerEl, video, chaptersUrl) {
     },
     posterImage: `${video.assetUrl}/as/thumbnail.jpeg?width=1280&height=720`,
     ...(chaptersUrl && { chapter: chaptersUrl }),
+    ...(smartCrop && { mode: 'smartcrop' }),
     solution: 'polaris',
     autoplay: false,
     controls: true,
@@ -248,7 +253,7 @@ export default async function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (!entries.some((entry) => entry.isIntersecting)) return;
     observer.disconnect();
-    initPlayer(playerEl, video, chaptersUrl).catch(() => {
+    initPlayer(playerEl, video, chaptersUrl, block.classList.contains('smartcrop')).catch(() => {
       // fail safely: fall back to the authored link
       playerEl.classList.add('error');
       playerEl.append(videoLink);

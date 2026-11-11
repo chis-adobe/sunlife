@@ -4,6 +4,7 @@
   --video-chapters-margin: var(--spacing-m) auto;
   --video-chapters-gap: var(--spacing-l);
   --video-chapters-aspect-ratio: 16 / 9;
+  --video-chapters-smartcrop-aspect-ratio: 4 / 5; /* below 900px, smartcrop variant only */
   --video-chapters-player-background: var(--dark-color);
   --video-chapters-list-max-height: 480px;
   --video-chapters-item-padding: var(--spacing-s) var(--spacing-m);
