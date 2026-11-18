@@ -9,8 +9,11 @@ function createSlide(row, slideIndex, carouselId) {
   slide.setAttribute('id', `carousel-${carouselId}-slide-${slideIndex}`);
   slide.classList.add('carousel-slide');
 
-  row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
-    column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
+  const columns = row.querySelectorAll(':scope > div');
+  columns.forEach((column, colIdx) => {
+    // a slide made of a single text cell (e.g. a testimonial) has no image column
+    const isImage = colIdx === 0 && (columns.length > 1 || column.querySelector('picture'));
+    column.classList.add(`carousel-slide-${isImage ? 'image' : 'content'}`);
     slide.append(column);
   });
 

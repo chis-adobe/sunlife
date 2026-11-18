@@ -288,7 +288,10 @@ export default async function decorate(block) {
     return links.length && links.every((a) => a.getAttribute('href')?.startsWith('#'));
   });
   const sections = allSections.filter((sec) => sec !== skipSection);
-  const [utilitySection, brandSection, mainSection, toolsSection, labelsSection] = sections;
+  // the utility bar is optional: a nav that starts with its brand (logo) section has none
+  const startsWithBrand = sections[0]?.querySelector('picture') && !sections[0].querySelector('ul, ol');
+  const [utilitySection, brandSection, mainSection, toolsSection, labelsSection] = startsWithBrand
+    ? [null, ...sections] : sections;
   const labels = readLabels(labelsSection);
 
   // normalise link accessible names (visible text / img alt is enough)
@@ -324,6 +327,13 @@ export default async function decorate(block) {
   const navSections = wrapSection(mainSection, 'nav-sections');
   const navTools = wrapSection(toolsSection, 'nav-tools');
   const navUtility = wrapSection(utilitySection, 'nav-utility');
+
+  // mark the link to the current page (local previews serve pages under /content/)
+  const here = window.location.pathname.replace(/^\/content(?=\/)/, '');
+  navSections.querySelectorAll(':scope > ul > li > a[href]').forEach((a) => {
+    const url = new URL(a.href, window.location);
+    if (url.host === window.location.host && url.pathname === here) a.setAttribute('aria-current', 'page');
+  });
 
   // megamenus: one column per group; utility dropdowns stack groups into fixed columns
   [[navSections, 0], [navUtility, UTILITY_PANEL_COLUMNS]].forEach(([container, cols]) => {

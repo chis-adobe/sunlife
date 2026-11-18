@@ -189,6 +189,141 @@
           ]
         }
       ]
+    },
+    {
+      "name": "monarch-financial",
+      "urls": [
+        "https://web.sunlife.ca/monarch-financial/"
+      ],
+      "representativeUrl": "https://web.sunlife.ca/monarch-financial/",
+      "description": "Monarch Financial advisor sub site (web.sunlife.ca advisor platform): full-bleed hero with caption panel, services media columns, Sun Life contract notice, beige intro, client testimonial carousel, intake questionnaire callout and a photo-strip closing banner. Own nav/footer fragments under /monarch-financial/fragments/.",
+      "urlPattern": "https://web.sunlife.ca/monarch-financial/*",
+      "targetPath": "/monarch-financial/",
+      "pageMetadata": {
+        "template": "monarch-financial",
+        "nav": "/monarch-financial/fragments/nav",
+        "footer": "/monarch-financial/fragments/footer"
+      },
+      "fragments": {
+        "nav": "/monarch-financial/fragments/nav",
+        "footer": "/monarch-financial/fragments/footer"
+      },
+      "blocks": [
+        {
+          "name": "hero-panel",
+          "instances": [
+            "header#header"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            ".image-text-section-2"
+          ]
+        },
+        {
+          "name": "columns-callout",
+          "instances": [
+            ".section1_hp",
+            ".have-questions"
+          ]
+        },
+        {
+          "name": "carousel-testimonials",
+          "instances": [
+            ".da-updates .carousel"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "mf1",
+          "name": "Hero",
+          "selector": [
+            "header#header"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-panel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "mf2",
+          "name": "Our services",
+          "selector": [
+            ".image-text-section-2"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "mf3",
+          "name": "Sun Life contract notice",
+          "selector": [
+            ".section1_hp"
+          ],
+          "style": "dark",
+          "blocks": [
+            "columns-callout"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "mf4",
+          "name": "Why Monarch Financial",
+          "selector": [
+            ".header-background"
+          ],
+          "style": "beige",
+          "blocks": [],
+          "defaultContent": [
+            ".header-background-text"
+          ]
+        },
+        {
+          "id": "mf5",
+          "name": "Client testimonials",
+          "selector": [
+            ".what-clients-say-about-us"
+          ],
+          "style": "dark",
+          "blocks": [
+            "carousel-testimonials"
+          ],
+          "defaultContent": [
+            ".what-clients-say-about-us h2"
+          ]
+        },
+        {
+          "id": "mf6",
+          "name": "Have questions",
+          "selector": [
+            ".have-questions"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-callout"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "mf7",
+          "name": "Helping clients",
+          "selector": [
+            ".helping-cta"
+          ],
+          "style": "photo-strip",
+          "blocks": [],
+          "defaultContent": [
+            ".helping-cta-text h3",
+            ".helping-cta-background"
+          ]
+        }
+      ]
     }
   ]
 }

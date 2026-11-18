@@ -49,6 +49,8 @@ export default async function decorate(block) {
       a.classList.add('footer-icon-link');
       if (a.title) a.setAttribute('aria-label', a.title);
     }
+    // image links (logo, social images) are named by their alt text, not an empty label
+    if (a.getAttribute('aria-label') === '') a.removeAttribute('aria-label');
   });
 
   block.append(footer);

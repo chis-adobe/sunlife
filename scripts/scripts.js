@@ -154,6 +154,19 @@ export function getFragmentPath(name) {
   return `${prefix}/${isLocale ? locale : DEFAULT_LOCALE}/${name}`;
 }
 
+// page templates (`template` metadata) that ship their own stylesheet in /templates/{name}/
+const TEMPLATES_WITH_STYLES = ['monarch-financial'];
+
+/**
+ * Loads the stylesheet of the page's template (e.g. a sub site's branding), if it has one.
+ * Only known templates are loaded, so metadata can never point at an arbitrary path.
+ */
+async function loadTemplateStyles() {
+  const template = toClassName(getMetadata('template'));
+  if (!TEMPLATES_WITH_STYLES.includes(template)) return;
+  await loadCSS(`${window.hlx.codeBasePath}/templates/${template}/${template}.css`);
+}
+
 /**
  * load fonts.css and set a session storage flag
  */
@@ -567,6 +580,7 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  const templateStyles = loadTemplateStyles();
   if (FEATURES.themeSheet) loadThemeSpreadSheetConfig();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
@@ -574,6 +588,8 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    // template branding applies before the page is shown (no restyle after first paint)
+    await templateStyles;
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

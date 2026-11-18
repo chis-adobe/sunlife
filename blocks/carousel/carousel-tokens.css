@@ -19,4 +19,16 @@
   --carousel-nav-arrow-thickness: 2px; /* @boilerplate */
   --carousel-nav-arrow-offset: 2px; /* @boilerplate */
   --carousel-transition-duration: var(--transition-duration); /* @boilerplate */
+
+  /* carousel (testimonials) variant: centred client quotes on the section background */
+  --carousel-testimonials-text-color: inherit;
+  --carousel-testimonials-accent-color: currentcolor; /* quote glyph + arrows */
+  --carousel-testimonials-quote-font-size: var(--body-font-size-xl);
+  --carousel-testimonials-quote-line-height: 1.25;
+  --carousel-testimonials-quote-font-weight: 500;
+  --carousel-testimonials-attribution-font-weight: 300;
+  --carousel-testimonials-glyph-size: 48px;
+  --carousel-testimonials-padding: var(--spacing-xl) 0;
+  --carousel-testimonials-nav-width: 48px;
+  --carousel-testimonials-arrow-size: 14px;
 }
