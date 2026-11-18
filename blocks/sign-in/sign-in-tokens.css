@@ -1,0 +1,11 @@
+/* sign-in design tokens */
+:root {
+  --sign-in-max-width: 440px;
+  --sign-in-gap: var(--spacing-l);
+  --sign-in-label-font-weight: var(--bold-font-weight);
+  --sign-in-input-height: 48px;
+  --sign-in-input-padding: 0 var(--spacing-m);
+  --sign-in-input-border: var(--border-width-s) solid var(--input-border-color);
+  --sign-in-input-radius: var(--border-radius-s);
+  --sign-in-error-color: var(--error-color);
+}

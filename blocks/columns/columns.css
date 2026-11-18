@@ -90,6 +90,23 @@
   height: var(--columns-banner-badge-height);
 }
 
+/* ==== columns (callout): image column sized to its content, text takes the rest ==== */
+.columns.callout > div {
+  gap: var(--columns-callout-gap);
+}
+
+.columns.callout > div > .columns-img-col {
+  line-height: 0;
+}
+
+.columns.callout > div > .columns-img-col img {
+  max-width: var(--columns-callout-image-max-width);
+}
+
+.columns.callout > div > div > :last-child {
+  margin-bottom: 0;
+}
+
 @media (width >= 900px) { /* @boilerplate */
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -131,5 +148,14 @@
     flex-direction: column;
     justify-content: center;
     padding: var(--columns-banner-text-padding-desktop);
+  }
+
+  /* columns (callout) */
+  .columns.callout > div {
+    gap: var(--columns-callout-gap-desktop);
+  }
+
+  .columns.callout > div > .columns-img-col {
+    flex: 0 0 auto;
   }
 }

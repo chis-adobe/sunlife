@@ -114,6 +114,8 @@ main > .section.hero-container > .hero-wrapper {
     inset: 0;
   }
 
+  /* the cell, picture and image all fill the block, whatever the image's own proportions */
+  .hero.panel > .hero-media > div,
   .hero.panel > .hero-media picture,
   .hero.panel > .hero-media img {
     height: 100%;

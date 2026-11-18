@@ -153,3 +153,74 @@
     --slide-content-width: auto; /* @boilerplate */
   }
 }
+
+/* ==== carousel (testimonials): text-only slides with a quote glyph and plain arrows ==== */
+.carousel.testimonials .carousel-slide {
+  min-height: unset;
+  align-items: center;
+}
+
+.carousel.testimonials .carousel-slide .carousel-slide-content {
+  --slide-content-width: auto;
+
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: var(--carousel-testimonials-padding);
+  padding-inline: var(--carousel-testimonials-nav-width);
+  background: none;
+  color: var(--carousel-testimonials-text-color);
+  text-align: center;
+}
+
+.carousel.testimonials .carousel-slide-content::before {
+  content: '\201C';
+  display: block;
+  height: calc(var(--carousel-testimonials-glyph-size) / 2);
+  font-size: var(--carousel-testimonials-glyph-size);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.carousel.testimonials .carousel-slide-content p {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--carousel-testimonials-quote-font-size);
+  font-weight: var(--carousel-testimonials-quote-font-weight);
+  line-height: var(--carousel-testimonials-quote-line-height);
+}
+
+.carousel.testimonials .carousel-slide-content p:last-child:not(:first-child) {
+  margin-bottom: 0;
+  font-weight: var(--carousel-testimonials-attribution-font-weight);
+}
+
+/* prev / next: bare chevrons at the edges; dots are not part of this design */
+.carousel.testimonials .carousel-navigation-buttons {
+  inset: 0;
+  transform: none;
+  pointer-events: none;
+}
+
+.carousel.testimonials .carousel-navigation-buttons button {
+  width: var(--carousel-testimonials-nav-width);
+  height: 100%;
+  border-radius: 0;
+  background: none;
+  color: var(--carousel-testimonials-accent-color);
+  pointer-events: auto;
+}
+
+.carousel.testimonials .carousel-navigation-buttons button:hover,
+.carousel.testimonials .carousel-navigation-buttons button:focus-visible {
+  background: none;
+  opacity: 0.8;
+}
+
+.carousel.testimonials .carousel-navigation-buttons button::after {
+  width: var(--carousel-testimonials-arrow-size);
+  height: var(--carousel-testimonials-arrow-size);
+}
+
+.carousel.testimonials .carousel-slide-indicators {
+  display: none;
+}

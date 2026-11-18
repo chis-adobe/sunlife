@@ -1,0 +1,531 @@
+/*
+ * Template: monarch-financial — Monarch Financial advisor sub site (/monarch-financial/).
+ * Loaded by scripts.js for pages with `template: monarch-financial` metadata. Re-brands the
+ * shared design system through its tokens (values measured on https://web.sunlife.ca/monarch-financial/)
+ * and styles the sub site's own nav/footer fragments and section styles (dark, beige, photo-strip).
+ */
+
+/* ==== tokens ==== */
+body.monarch-financial {
+  --monarch-teal: #003a48;
+  --monarch-teal-hover: #00566b;
+  --monarch-orange: #faa61e;
+  --monarch-beige: #e1dcd2;
+  --monarch-black: #000;
+  --monarch-white: #fff;
+
+  /* colours */
+  --brand-primary: var(--monarch-orange);
+  --brand-secondary: var(--monarch-teal);
+  --text-color: var(--monarch-black);
+  --dark-color: var(--monarch-teal);
+  --link-color: var(--monarch-teal);
+  --link-hover-color: var(--monarch-teal-hover);
+  --focus-ring-color: var(--monarch-orange);
+
+  /* typography: Urbanist throughout; headings bold, large display sizes */
+  --body-font-family: urbanist, urbanist-fallback, 'Helvetica Neue', arial, sans-serif;
+  --heading-font-family: var(--body-font-family);
+  --display-font-family: var(--body-font-family);
+  --body-font-size-xl: 24px; /* lead copy, lists, quotes */
+  --heading-font-size-xxl: 27px; /* hero caption */
+  --heading-font-size-xl: 40px; /* h2 */
+  --heading-font-size-l: 28px; /* h3 */
+  --heading-font-weight: 700;
+  --heading-line-height: 1.1;
+  --monarch-lead-line-height: 1.4286; /* 34.29px / 24px */
+
+  /* buttons: teal pill */
+  --button-background: var(--monarch-teal);
+  --button-hover-background: var(--monarch-teal-hover);
+  --button-text-color: var(--monarch-white);
+  --button-border-radius: 34px;
+  --button-padding: 12px 24px;
+
+  /* header: 69px teal bar on mobile, 100px on desktop; no utility bar */
+  --nav-height: 69px;
+  --header-height: var(--nav-height);
+  --header-utility-height: 0px;
+  --header-bar-height-mobile: var(--nav-height);
+  --header-bar-height-tablet: var(--nav-height);
+  --header-bar-height: 100px;
+  --header-logo-width-mobile: 204px;
+  --header-logo-width: 277px;
+  --header-text-color: var(--monarch-white);
+  --header-utility-color: var(--monarch-white);
+  --header-divider-color: rgb(255 255 255 / 20%);
+
+  /* hero (panel): full-bleed photo, teal leaf-shaped caption centred near the bottom */
+  --hero-panel-background: var(--monarch-teal);
+  --hero-panel-padding: 33px 50px 15px;
+  --hero-panel-padding-desktop: 24px 60px;
+  --hero-panel-width: auto;
+  --hero-panel-heading-margin: 0;
+  --hero-panel-heading-font-family: var(--body-font-family);
+  --monarch-hero-caption-radius: 160px 0;
+  --monarch-hero-caption-offset: 96px;
+
+  /* columns (media) + (callout) */
+  --columns-media-image-aspect-ratio: 788 / 612;
+  --columns-media-heading-font-size: var(--heading-font-size-xl);
+  --columns-media-heading-line-height: var(--heading-line-height);
+  --columns-callout-image-max-width: 270px;
+
+  /* carousel (testimonials) */
+  --carousel-testimonials-text-color: var(--monarch-white);
+  --carousel-testimonials-accent-color: var(--monarch-orange);
+  --carousel-testimonials-quote-font-size: var(--body-font-size-xl);
+  --carousel-testimonials-glyph-size: 40px;
+
+  /* footer */
+  --footer-background: var(--monarch-teal);
+  --footer-link-font-size: 15px;
+  --footer-padding: 60px var(--content-gutter);
+  --footer-padding-desktop: 60px var(--content-gutter);
+  --monarch-footer-social-size: 55px;
+}
+
+@font-face {
+  font-family: urbanist-fallback;
+  size-adjust: 94%;
+  src: local('Arial');
+}
+
+/* ==== default content ==== */
+body.monarch-financial main h2 {
+  margin-bottom: var(--spacing-s);
+}
+
+body.monarch-financial main h2 em {
+  font-style: normal;
+  color: var(--monarch-orange);
+}
+
+body.monarch-financial main :is(p, li) {
+  font-size: var(--body-font-size-xl);
+  font-weight: 500;
+  line-height: var(--monarch-lead-line-height);
+}
+
+body.monarch-financial main li + li {
+  margin-top: var(--spacing-xs);
+}
+
+body.monarch-financial main a.button {
+  margin: 0;
+  font-size: var(--body-font-size-xl);
+  line-height: var(--monarch-lead-line-height);
+}
+
+/* ==== sections ==== */
+body.monarch-financial main > .section {
+  padding-top: var(--spacing-xxl);
+  padding-bottom: 0;
+}
+
+body.monarch-financial main > .section:first-of-type {
+  padding-top: 0;
+}
+
+/* coloured bands are separated from each other by white space, as on the source */
+body.monarch-financial main > .section:is(.dark, .beige) {
+  margin-top: var(--spacing-xxl);
+  padding-bottom: var(--spacing-xxl);
+}
+
+body.monarch-financial main > .section.dark {
+  color: var(--monarch-white);
+}
+
+body.monarch-financial main > .section.dark h2 {
+  text-align: center;
+}
+
+body.monarch-financial main > .section.beige {
+  background-color: var(--monarch-beige);
+  color: var(--monarch-teal);
+}
+
+body.monarch-financial main > .section.beige :is(p, li) {
+  font-weight: 300;
+}
+
+/* closing banner: orange rule, centred heading, edge-to-edge photo strip */
+body.monarch-financial main > .section.photo-strip {
+  margin-top: var(--spacing-xxl);
+  border-top: 25px solid var(--monarch-orange);
+  padding-top: var(--spacing-l);
+}
+
+body.monarch-financial main > .section.photo-strip > div {
+  max-width: none;
+  padding: 0;
+}
+
+body.monarch-financial main > .section.photo-strip h3 {
+  margin: 0 var(--content-gutter) var(--spacing-l);
+  font-size: var(--heading-font-size-l);
+  font-weight: 600;
+  text-align: center;
+}
+
+body.monarch-financial main > .section.photo-strip p:has(> picture) {
+  margin: 0;
+  line-height: 0;
+}
+
+body.monarch-financial main > .section.photo-strip img {
+  width: 100%;
+  height: 204px;
+  object-fit: cover;
+}
+
+/* ==== hero (panel): photo fills the first screen, caption overlaps it ==== */
+body.monarch-financial .hero.panel > .hero-media img {
+  aspect-ratio: 390 / 300;
+  object-fit: cover;
+}
+
+body.monarch-financial .hero.panel > .hero-content > div {
+  text-align: center;
+}
+
+body.monarch-financial .hero.panel h1 {
+  font-size: var(--heading-font-size-xxl);
+  line-height: 1.1;
+}
+
+/* ==== columns ==== */
+body.monarch-financial .columns.media h2 {
+  margin-bottom: var(--spacing-m);
+}
+
+body.monarch-financial .columns.media ul {
+  margin: 0;
+  padding-left: 30px;
+}
+
+body.monarch-financial .columns.media li + li {
+  margin-top: 10px;
+}
+
+body.monarch-financial .section.dark .columns.callout {
+  text-align: center;
+}
+
+body.monarch-financial .section.dark .columns.callout p {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--body-font-size-s);
+  line-height: 20px;
+}
+
+body.monarch-financial .columns.callout h2 {
+  font-size: var(--heading-font-size-xl);
+}
+
+body.monarch-financial .columns.callout p.button-wrapper {
+  margin-top: var(--spacing-l);
+}
+
+/* ==== sign-in page ==== */
+body.monarch-financial main > .section:has(.sign-in) {
+  padding-top: var(--spacing-xxl);
+  padding-bottom: var(--spacing-4xl);
+}
+
+body.monarch-financial main > .section:has(.sign-in) h1 {
+  font-size: var(--heading-font-size-xl);
+}
+
+/* ==== header ==== */
+body.monarch-financial header .nav-wrapper {
+  --background-color: var(--monarch-teal);
+  --link-color: var(--monarch-white);
+}
+
+body.monarch-financial header nav {
+  border-bottom: 0;
+}
+
+body.monarch-financial header .nav-bar {
+  justify-content: flex-start;
+}
+
+body.monarch-financial header .nav-hamburger {
+  right: var(--content-gutter);
+  left: auto;
+}
+
+body.monarch-financial header .nav-brand img {
+  height: 48px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+body.monarch-financial header .nav-utility:empty {
+  display: none;
+}
+
+body.monarch-financial header .nav-sections > ul > li > a:any-link,
+body.monarch-financial header .nav-tools a:any-link {
+  display: block;
+  padding: var(--spacing-m) 0;
+  font-size: var(--body-font-size-l);
+  font-weight: 600;
+  color: var(--monarch-white);
+}
+
+body.monarch-financial header .nav-tools {
+  margin-top: var(--spacing-l);
+}
+
+/* sign out only applies to signed-in (gated) pages, not the sign-in page itself */
+body.monarch-financial:not(.signed-in) header .nav-tools {
+  display: none;
+}
+
+/* ==== footer ==== */
+body.monarch-financial footer {
+  color: var(--monarch-white);
+}
+
+body.monarch-financial footer .footer > div > .section > div {
+  border-top: 0;
+}
+
+body.monarch-financial footer .footer > div > .section + .section > div {
+  padding-top: 0;
+}
+
+body.monarch-financial footer .footer a:any-link {
+  color: var(--monarch-white);
+}
+
+/* brand row: lockup, contact pill, privacy link, social icons */
+body.monarch-financial footer .footer-links .footer-columns {
+  display: block;
+}
+
+body.monarch-financial footer .footer-links .footer-column {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
+  gap: var(--spacing-l);
+}
+
+body.monarch-financial footer .footer-links .footer-column > p:first-child img {
+  display: block;
+  width: 422px;
+  max-width: 100%;
+  height: auto;
+}
+
+body.monarch-financial footer .footer-links a:any-link {
+  white-space: nowrap;
+  font-size: var(--body-font-size-xl);
+  font-weight: 700;
+  line-height: var(--monarch-lead-line-height);
+}
+
+body.monarch-financial footer .footer-links a.button:any-link {
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 34px;
+  padding: 8px 30px;
+  background-color: var(--monarch-white);
+  color: var(--monarch-black);
+}
+
+body.monarch-financial footer .footer-links a.button:hover {
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+body.monarch-financial footer .footer-links ul {
+  display: flex;
+  gap: 20px;
+}
+
+body.monarch-financial footer .footer-links ul a:any-link {
+  display: block;
+  line-height: 0;
+}
+
+body.monarch-financial footer .footer-links ul img {
+  width: var(--monarch-footer-social-size);
+  height: var(--monarch-footer-social-size);
+}
+
+/* statement + legal links + disclosures */
+body.monarch-financial footer :is(.footer-brand, .footer-legal) p {
+  margin: 0 0 10px;
+  font-size: var(--footer-link-font-size);
+}
+
+body.monarch-financial footer .footer-brand p:first-child {
+  font-size: var(--footer-link-font-size);
+}
+
+body.monarch-financial footer .footer-legal > div {
+  display: block;
+}
+
+body.monarch-financial footer .footer-legal ul {
+  gap: 7px;
+  margin-bottom: 30px;
+}
+
+@media (width >= 900px) {
+  body.monarch-financial {
+    --heading-font-size-xl: 50px;
+    --heading-font-size-l: 32px;
+    --columns-callout-gap-desktop: 100px;
+  }
+
+  body.monarch-financial main > .section:is(.dark, .beige) {
+    padding-top: 48px;
+    padding-bottom: 58px;
+  }
+
+  body.monarch-financial main > .section.dark > div {
+    max-width: calc(952px + 2 * var(--content-gutter));
+  }
+
+  /* why monarch: copy column ~60% wide, left aligned to the page grid */
+  body.monarch-financial main > .section.beige .default-content-wrapper > * {
+    max-width: 864px;
+  }
+
+  body.monarch-financial main > .section.photo-strip img {
+    height: 260px;
+  }
+
+  /* hero: photo fills the first screen below the header, caption sits near its bottom */
+  body.monarch-financial .hero.panel {
+    justify-content: flex-end;
+    min-height: max(480px, calc(100svh - var(--header-height)));
+  }
+
+  body.monarch-financial .hero.panel > .hero-media img {
+    aspect-ratio: auto;
+  }
+
+  body.monarch-financial .hero.panel > .hero-content {
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-bottom: var(--monarch-hero-caption-offset);
+  }
+
+  body.monarch-financial .hero.panel > .hero-content > div {
+    border-radius: var(--monarch-hero-caption-radius);
+  }
+
+  /* services: image runs to the left edge of the window, copy beside it */
+  body.monarch-financial main > .section > .columns-wrapper:has(> .columns.media) {
+    max-width: none;
+    padding-left: 0;
+  }
+
+  body.monarch-financial .columns.media > div {
+    align-items: flex-start;
+    gap: 154px;
+  }
+
+  body.monarch-financial .columns.media > div > .columns-img-col {
+    flex: 0 0 55%;
+  }
+
+  body.monarch-financial .columns.media > div > div:not(.columns-img-col) {
+    padding-top: var(--spacing-m);
+  }
+
+  body.monarch-financial .section.dark .columns.callout {
+    text-align: left;
+  }
+
+  /* questionnaire callout: symbol flush with the left edge */
+  body.monarch-financial main > .section:not(.dark) > .columns-wrapper:has(> .columns.callout) {
+    max-width: none;
+    padding-left: 14px;
+  }
+
+  body.monarch-financial footer .footer-links .footer-column {
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 40px;
+  }
+
+  body.monarch-financial footer .footer-links .footer-column > p:first-child {
+    flex: 0 1 422px;
+    margin-right: auto;
+  }
+}
+
+@media (width >= 1200px) {
+  body.monarch-financial {
+    --nav-height: 100px;
+  }
+
+  body.monarch-financial header nav {
+    padding-top: 0;
+  }
+
+  body.monarch-financial header nav::before {
+    display: none;
+  }
+
+  body.monarch-financial header .nav-bar {
+    max-width: none;
+    padding: 0 60px;
+  }
+
+  body.monarch-financial header .nav-brand {
+    margin-right: var(--spacing-xl);
+  }
+
+  body.monarch-financial header .nav-brand img {
+    height: 65px;
+  }
+
+  body.monarch-financial header .nav-drawer {
+    justify-content: flex-end;
+  }
+
+  body.monarch-financial header .nav-sections > ul {
+    align-items: center;
+    gap: 0;
+  }
+
+  body.monarch-financial header .nav-sections > ul > li > a:any-link {
+    padding: 10px 15px 9px;
+    line-height: 20px;
+  }
+
+  body.monarch-financial header .nav-sections > ul > li > a[aria-current='page'] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* sign out: after the page links, set off by a divider */
+  body.monarch-financial header .nav-tools {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 15px;
+    border-left: 1px solid var(--header-divider-color);
+    padding-left: 15px;
+  }
+
+  body.monarch-financial header .nav-tools > ul {
+    height: auto;
+  }
+
+  body.monarch-financial header .nav-tools a:any-link {
+    height: auto;
+    padding: 10px 0 9px;
+    font-size: var(--body-font-size-l);
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--monarch-white);
+  }
+}

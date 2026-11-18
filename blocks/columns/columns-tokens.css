@@ -18,4 +18,9 @@
   --columns-banner-heading-line-height: 1.3333;
   --columns-banner-badge-height: 44px;
   --columns-banner-image-min-height-desktop: 216px;
+
+  /* columns (callout) variant: small image column (logo, symbol) beside the text */
+  --columns-callout-gap: var(--spacing-l);
+  --columns-callout-gap-desktop: var(--spacing-4xl);
+  --columns-callout-image-max-width: 280px;
 }
