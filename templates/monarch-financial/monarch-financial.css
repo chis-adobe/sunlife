@@ -227,6 +227,16 @@ body.monarch-financial .columns.callout p.button-wrapper {
   margin-top: var(--spacing-l);
 }
 
+/* ==== sign-in page ==== */
+body.monarch-financial main > .section:has(.sign-in) {
+  padding-top: var(--spacing-xxl);
+  padding-bottom: var(--spacing-4xl);
+}
+
+body.monarch-financial main > .section:has(.sign-in) h1 {
+  font-size: var(--heading-font-size-xl);
+}
+
 /* ==== header ==== */
 body.monarch-financial header .nav-wrapper {
   --background-color: var(--monarch-teal);
@@ -269,6 +279,11 @@ body.monarch-financial header .nav-tools {
   margin-top: var(--spacing-l);
 }
 
+/* sign out only applies to signed-in (gated) pages, not the sign-in page itself */
+body.monarch-financial:not(.signed-in) header .nav-tools {
+  display: none;
+}
+
 /* ==== footer ==== */
 body.monarch-financial footer {
   color: var(--monarch-white);
@@ -306,6 +321,7 @@ body.monarch-financial footer .footer-links .footer-column > p:first-child img {
 }
 
 body.monarch-financial footer .footer-links a:any-link {
+  white-space: nowrap;
   font-size: var(--body-font-size-xl);
   font-weight: 700;
   line-height: var(--monarch-lead-line-height);
@@ -491,8 +507,21 @@ body.monarch-financial footer .footer-legal ul {
     text-underline-offset: 4px;
   }
 
-  /* the client login lives in the mobile menu only, as on the source */
+  /* sign out: after the page links, set off by a divider */
   body.monarch-financial header .nav-tools {
-    display: none;
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 15px;
+    border-left: 1px solid var(--header-divider-color);
+    padding-left: 15px;
+  }
+
+  body.monarch-financial header .nav-tools a:any-link {
+    height: auto;
+    padding: 10px 0 9px;
+    font-size: var(--body-font-size-l);
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--monarch-white);
   }
 }

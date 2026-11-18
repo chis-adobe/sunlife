@@ -1,0 +1,51 @@
+@import url('./sign-in-tokens.css');
+
+.sign-in {
+  max-width: var(--sign-in-max-width);
+}
+
+.sign-in .sign-in-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sign-in-gap);
+}
+
+.sign-in .sign-in-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.sign-in label {
+  font-weight: var(--sign-in-label-font-weight);
+}
+
+.sign-in input {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--sign-in-input-height);
+  border: var(--sign-in-input-border);
+  border-radius: var(--sign-in-input-radius);
+  padding: var(--sign-in-input-padding);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.sign-in button {
+  align-self: flex-start;
+  margin: 0;
+}
+
+.sign-in .sign-in-status:empty {
+  display: none;
+}
+
+.sign-in .sign-in-status {
+  margin: 0 0 var(--sign-in-gap);
+  font-size: var(--body-font-size-m);
+}
+
+.sign-in .sign-in-status.sign-in-error {
+  color: var(--sign-in-error-color);
+  font-weight: var(--bold-font-weight);
+}

@@ -351,7 +351,9 @@ var CustomImportScript = (() => {
     "pageMetadata": {
       "template": "monarch-financial",
       "nav": "/monarch-financial/fragments/nav",
-      "footer": "/monarch-financial/fragments/footer"
+      "footer": "/monarch-financial/fragments/footer",
+      "sign-in": "/monarch-financial/sign-in",
+      "robots": "noindex, nofollow"
     },
     "fragments": {
       "nav": "/monarch-financial/fragments/nav",
@@ -383,6 +385,7 @@ var CustomImportScript = (() => {
   };
   var transformers = [transform, transform2];
   var NAV_LABELS = ["Open menu: Open menu", "Close menu: Close menu", "Home: Home"];
+  var SIGN_OUT_LINK = { href: "/monarch-financial/sign-in?sign-out", text: "Sign out" };
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
     transformers.forEach((fn) => {
@@ -444,11 +447,10 @@ var CustomImportScript = (() => {
     const logo = logoLink && logoLink.querySelector("img");
     if (logo) sections.push([el(document, "p", {}, [imageLink(document, logoLink, logo)])]);
     const items = [...source.querySelectorAll(".nav-pages--items > li")].filter((li) => li.querySelector("a"));
-    const isTool = (li) => /login|sign-?in/i.test(li.id || li.querySelector("a").getAttribute("href"));
-    const visible = items.filter((li) => !isTool(li));
-    const overflow = items.filter(isTool);
+    const isLogin = (li) => /login|sign-?in/i.test(li.id || li.querySelector("a").getAttribute("href"));
+    const visible = items.filter((li) => !isLogin(li));
     sections.push([list(document, visible.map((li) => link(document, li.querySelector("a"))))]);
-    if (overflow.length) sections.push([list(document, overflow.map((li) => link(document, li.querySelector("a"))))]);
+    sections.push([list(document, [el(document, "a", { href: SIGN_OUT_LINK.href }, [SIGN_OUT_LINK.text])])]);
     sections.push([list(document, NAV_LABELS)]);
     const skip = source.querySelector("#skip-to-main, .TopBar--skipLinks a");
     if (skip) sections.push([list(document, [el(document, "a", { href: "#main" }, [clean(skip.textContent)])])]);
@@ -511,6 +513,8 @@ var CustomImportScript = (() => {
     meta.Template = PAGE_TEMPLATE.pageMetadata.template;
     meta.nav = PAGE_TEMPLATE.pageMetadata.nav;
     meta.footer = PAGE_TEMPLATE.pageMetadata.footer;
+    meta["sign-in"] = PAGE_TEMPLATE.pageMetadata["sign-in"];
+    meta.Robots = PAGE_TEMPLATE.pageMetadata.robots;
     return WebImporter.Blocks.createBlock(document, { name: "Metadata", cells: meta });
   }
   var import_monarch_financial_default = {

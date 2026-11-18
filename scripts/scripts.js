@@ -579,6 +579,13 @@ export function decorateMain(main) {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  // demo login wall: pages with `sign-in` metadata need a demo session (not in the editor)
+  const signInPath = getMetadata('sign-in');
+  if (signInPath && !window.location.hostname.includes('ue.da.live')) {
+    const { requireSignIn } = await import('./demo-sign-in.js');
+    if (!requireSignIn(signInPath)) return false; // redirecting: never show the page
+    document.body.classList.add('signed-in');
+  }
   decorateTemplateAndTheme();
   const templateStyles = loadTemplateStyles();
   if (FEATURES.themeSheet) loadThemeSpreadSheetConfig();
@@ -598,6 +605,7 @@ async function loadEager(doc) {
   if (window.matchMedia('(min-width: 900px)').matches || sessionStorage.getItem('fonts-loaded')) {
     loadFonts();
   }
+  return true;
 }
 
 /**
@@ -664,7 +672,7 @@ async function loadSidekick() {
 }
 
 export async function loadPage() {
-  await loadEager(document);
+  if (!await loadEager(document)) return;
   await loadLazy(document);
   loadDelayed();
   loadSidekick();

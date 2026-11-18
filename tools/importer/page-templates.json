@@ -202,7 +202,9 @@
       "pageMetadata": {
         "template": "monarch-financial",
         "nav": "/monarch-financial/fragments/nav",
-        "footer": "/monarch-financial/fragments/footer"
+        "footer": "/monarch-financial/fragments/footer",
+        "sign-in": "/monarch-financial/sign-in",
+        "robots": "noindex, nofollow"
       },
       "fragments": {
         "nav": "/monarch-financial/fragments/nav",
