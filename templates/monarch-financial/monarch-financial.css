@@ -516,6 +516,10 @@ body.monarch-financial footer .footer-legal ul {
     padding-left: 15px;
   }
 
+  body.monarch-financial header .nav-tools > ul {
+    height: auto;
+  }
+
   body.monarch-financial header .nav-tools a:any-link {
     height: auto;
     padding: 10px 0 9px;
